@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/07 13:17:41 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/09 21:25:11 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef struct s_game
 	int		exit_x; //Corrdenada X da saida no mapa 
 	int		exit_y; //Corredenada Y da saida no mapa
 }			t_game;
-
+//Funçao para liberar meoira a locada em mapa(matriz bidimensional)
+void	free_map(char	**map, int line_count);
 // Validar Map
 int			ft_validate_map(char *file, t_game *game);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:45:09 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/06 19:06:54 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:53:54 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+void    *ft_realloc(void *ptr, size_t old_size, size_t new_size);
 //Inicio do segundo bloco (BUFFER_SIZE de GNL)
 # ifndef BUFFER_SIZE
 #	define BUFFER_SIZE 1024 //Buffer para leitura

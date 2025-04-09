@@ -6,7 +6,7 @@
 #    By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 15:07:09 by jcongolo          #+#    #+#              #
-#    Updated: 2025/04/06 19:10:49 by jcongolo         ###   ########.fr        #
+#    Updated: 2025/04/09 19:59:48 by jcongolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS = ft_atoi.c ft_atol.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c\
 		ft_strlen.c ft_strcmp.c ft_strncmp.c ft_strnstr.c ft_strrchr.c\
 		ft_tolower.c ft_toupper.c ft_substr.c ft_strjoin.c ft_strtrim.c\
 		ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c\
-		ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_get_next_line.c
+		ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_get_next_line.c\
+		ft_realloc.c
 OBJS = $(SRCS:.c=.o)
 NAME = libft.a
 all: $(NAME)
