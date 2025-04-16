@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_map.c                                         :+:      :+:    :+:   */
+/*   ft_map_memory.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 21:22:38 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/09 21:23:00 by jcongolo         ###   ########.fr       */
+/*   Created: 2025/04/14 14:49:13 by jcongolo          #+#    #+#             */
+/*   Updated: 2025/04/14 14:49:28 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * array 'map'. Isso garante que toda a memória alocada dinamicamente
  * para o mapa seja corretamente liberada, evitando vazamentos de memória.
 */
-void	free_map(char	**map, int line_count)
+void	ft_free_map(char	**map, int line_count)
 {
 	int	i;
 
