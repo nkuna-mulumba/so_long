@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/15 22:22:45 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:38:51 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,3 +185,4 @@ int	ft_validate_map(char *file, t_game *game)
 	}
 	return (1);
 }
+

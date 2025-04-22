@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/16 12:00:02 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:48:20 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 # include "libft/libft.h"   //Biblioteca lbft
-# include "minilibx-linux/mlx.h" //Biblioteca de MiniLibX
+# include "mnlbx/mlx.h" //Biblioteca de MiniLibX
 
 # define TILE_SIZE 64 // Tamanho dos sprites (em pixels)
 # define KEY_ESC 65307   // ESC: encerrar jogo
@@ -77,6 +77,8 @@ void	ft_free_map(char	**map, int line_count);
 int		ft_check_map_walls(t_game *game);
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)
 int		ft_check_map_content(t_game *game);
+
+
 //Algoritmo Flood Fill para simular o caminho do jogador
 void	ft_flood_fill(t_flood *flood, int y, int x);
 /*
@@ -85,8 +87,12 @@ void	ft_flood_fill(t_flood *flood, int y, int x);
 	- Cria uma cópia temporária do mapa para não modificar o original.
 */
 int		ft_flood_fill_check(t_game *game);
+
+
 // Validar Map, chamando todas funçoes anteriores
 int		ft_validate_map(char *file, t_game *game);
+//ft_render_map - Percorre o mapa e desenha cada elemento na janela
+void	ft_render_map(t_game *game);
 
 #endif
 
@@ -94,3 +100,23 @@ int		ft_validate_map(char *file, t_game *game);
 // sudo apt update
 // sudo apt install -y libx11-dev libxext-dev libxrandr-dev libxrender-dev libbsd-dev
 // Método 1: Fechar com CTRL + C no terminal
+
+/*
+	== MiniLiBX fazer parte diretorio do projecto ==
+	
+	ls mnlbx/.git
+	rm -rf mnlbx/.git
+
+	verificar sempre se esta arquivo existe, depois de compilar
+	libmlx.a
+*/
+
+/*
+Falta :
+void	ft_render_map(t_game *game);
+void	ft_move_player(t_game *game, int dx, int dy);
+int		ft_handle_keypress(int keycode, t_game *game);
+void	ft_close_game(t_game *game);
+
+*/
+
