@@ -6,13 +6,13 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:49:39 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/23 00:51:53 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:56:51 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 /*
- * ft_load_sprites - Carrega os sprites do jogo e armazena na estrutura game.
+ * ft_load_sprites - Carrega os sprites do jogo e armazena na estrutura game
  *
  * Os elementos visuais são carregados apenas uma vez para otimizar a execução
  * e evitar múltiplas chamadas desnecessárias.
@@ -22,6 +22,21 @@
  */
 static void ft_load_sprites(t_game *game)
 {
+    int w;
+    int h;
+    
+    // Carregar as imagens do mapa
+    game->wall_img = mlx_xpm_file_to_image(game->mlx, "assets/wall.xpm", &w, &h);
+    game->collectible_img = mlx_xpm_file_to_image(game->mlx, "assets/collectible.xpm", &w, &h);
+    game->exit_img = mlx_xpm_file_to_image(game->mlx, "assets/exit.xpm", &w, &h);
+    game->player_img = mlx_xpm_file_to_image(game->mlx, "assets/player.xpm", &w, &h);
+
+    // Verificar se todas as imagens foram carregadas corretamente
+    if (!game->wall_img || !game->collectible_img || !game->exit_img || !game->player_img)
+    {
+        write(2, "Error: Failed to load one or more sprite images\n", 48);
+        exit(EXIT_FAILURE);
+    }
     
 }
 
