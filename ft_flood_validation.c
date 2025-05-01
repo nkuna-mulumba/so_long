@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/15 04:40:36 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/27 16:08:45 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	ft_flood_fill(t_flood *flood, int y, int x)
 	ft_flood_fill(flood, y, x + 1);//Direita
 	ft_flood_fill(flood, y, x - 1);//Esquerda
 }
+
 
 /*
  * Inicializa a estrutura auxiliar usada no Flood Fill.

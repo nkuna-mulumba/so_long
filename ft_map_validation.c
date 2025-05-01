@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/23 00:38:51 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/28 02:16:12 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ static int	ft_check_map_dimensions(t_game *game)
 	game->map_height = 0;
 	//Obter tamanho da primeira linha completo
 	game->map_width = ft_strlen(game->map[0]);
-	i = 0;
-
+	
 	//Iniciar com a primeira linha do Matriz
+	i = 0;
 	while (game->map[i])
 	{
 		// Comparar o tamanho da linha atual com o da primeira linha
-		if (ft_strlen(game->map[i]) != game->map_width)
+		if ((int)ft_strlen(game->map[i]) != game->map_width)
 		{
 			write(1, "Error: Map rows must have the same width.\n", 42);
             return (0);

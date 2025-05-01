@@ -2,7 +2,13 @@
 NAME = so_long
 
 # Arquivos fontes
-SRCS = ft_game_init.c\
+SRCS = ft_map_validation.c\
+	ft_map_content.c\
+	ft_flood_validation.c\
+	ft_game_init.c\
+	ft_render.c\
+	ft_map_memory.c\
+	ft_player_moves.c\
 	main.c
 
 OBJS = $(SRCS:.c=.o)

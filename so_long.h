@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/23 00:48:20 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:26:45 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include "libft/libft.h"   //Biblioteca lbft
 # include "mnlbx/mlx.h" //Biblioteca de MiniLibX
 
-# define TILE_SIZE 64 // Tamanho dos sprites (em pixels)
+// ==Teclas para movimentação e saída==
+// # define TILE_SIZE 64 // Tamanho dos sprites (em pixels)
+# define TILE_SIZE 80 //Acualizado segundo valor dos arquivos .xpm descarregadas
 # define KEY_ESC 65307   // ESC: encerrar jogo
 # define KEY_W 119     // W: movimento para cima
 # define KEY_A 97      // A: movimento para esquerda
@@ -41,14 +43,16 @@ typedef struct s_game
 	int		map_height; //Altura do mapa (numero de tiles)
 	void	*mlx; //Ponteiro para gerenciar o MiniLibX
 	void	*win; //Ponteiro para a janela do jogo
-	int		player_x; //Posiçao X do jogador no mapa
-	int		player_y; //Posiçao Y do jogador no mapa
+	int		player_x; //Coluna actual da posiçao do jogador no mapa
+	int		player_y; //Celula actual da posiçao do jogador no mapa
+    int		exit_x; //Numeros de colunas para encontrar a saida no mapa 
+	int		exit_y; //Numeros de celulas para encontrar a saida no mapa
 	int		collectibles; //Total de objectos colecionaveis no mapa
 	int		moves; //Contador de movimentos realizados pelo jogador
-	int		exit_x; //Corrdenada X da saida no mapa 
-	int		exit_y; //Corredenada Y da saida no mapa
 	int		player_found;  // Flag: jogador encontrado (1) ou não encontrado (0)
     int		exit_found;    // Flag: saída encontrada (1) ou não encontrada (0)
+	void    *sprites[4]; // Armazena todas as imagens carregadas
+    int     sprites_loaded; // Flag para evitar carregamento repetitivo
 }			t_game;
 
 /*
@@ -73,6 +77,10 @@ typedef struct	s_flood
 int		ft_init_game(t_game *game);
 //Funçao para liberar memoria a locada em mapa(matriz bidimensional)
 void	ft_free_map(char	**map, int line_count);
+//Funçao para encerrar o jogo
+void	ft_close_game(t_game *game);
+//Funçao captura evento de fechamento da janela e encerra o jogo
+int		ft_handle_close(t_game *game);
 //Verifica se todas as bordas do mapa são paredes(1)
 int		ft_check_map_walls(t_game *game);
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)
@@ -91,8 +99,14 @@ int		ft_flood_fill_check(t_game *game);
 
 // Validar Map, chamando todas funçoes anteriores
 int		ft_validate_map(char *file, t_game *game);
+//Carrega sprites do jogo e armazena na estrutura game
+void    ft_load_sprites(t_game *game);
 //ft_render_map - Percorre o mapa e desenha cada elemento na janela
 void	ft_render_map(t_game *game);
+//Move jogador para nova posição no mapa
+void    ft_move_player(t_game *game, int dx, int dy);
+//Captura eventos de teclado e executa ações do jogo
+int     ft_handle_keypress(int keycode, t_game *game);
 
 #endif
 
@@ -111,12 +125,5 @@ void	ft_render_map(t_game *game);
 	libmlx.a
 */
 
-/*
-Falta :
-void	ft_render_map(t_game *game);
-void	ft_move_player(t_game *game, int dx, int dy);
-int		ft_handle_keypress(int keycode, t_game *game);
-void	ft_close_game(t_game *game);
 
-*/
 
