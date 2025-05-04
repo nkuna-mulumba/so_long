@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/04 23:29:30 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:41:24 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
  * @game: Estrutura principal que contém dados do mapa.
  * Retorna 1 se bem-sucedido, ou 0 em caso de falha.
  */
-static int ft_read_map(t_game *game, const char *filename)
+static int  ft_read_map(t_game *game, const char *filename)
 {
-    int fd, i = 0, len;
-    char *line;
+    int     fd;
+    int     i;
+    int     len;
+    char    *line;
+    size_t  j;
 
     // Inicializa contador de colecionáveis
     game->collectibles = 0;
@@ -39,6 +42,7 @@ static int ft_read_map(t_game *game, const char *filename)
     }
 
     // Lê e armazena cada linha do mapa
+    i = 0;
     while ((line = ft_get_next_line(fd)) != NULL)
     {
         len = ft_strlen(line);
@@ -54,7 +58,8 @@ static int ft_read_map(t_game *game, const char *filename)
         }
 
         // Identifica posição do jogador (`P`) e conta colecionáveis (`C`)
-        for (size_t j = 0; j < ft_strlen(game->map[i]); j++)
+        j = 0;
+        while (j < ft_strlen(game->map[i]))
         {
             if (game->map[i][j] == 'P')
             {
@@ -63,6 +68,7 @@ static int ft_read_map(t_game *game, const char *filename)
             }
             else if (game->map[i][j] == 'C')
                 game->collectibles++;
+            j++;
         }
         i++;
     }
@@ -73,6 +79,7 @@ static int ft_read_map(t_game *game, const char *filename)
 
     return (1);
 }
+
 
 
 /*
