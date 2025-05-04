@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/28 02:16:12 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:29:30 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,78 +17,149 @@
  * @game: Estrutura principal que contém dados do mapa.
  * Retorna 1 se bem-sucedido, ou 0 em caso de falha.
  */
-static int	ft_read_map(char *file, t_game *game)
+static int ft_read_map(t_game *game, const char *filename)
 {
-	int		fd;
-	int		line_count;
-	char	*line;
-	size_t	old_size;
-	size_t	new_size;
-	
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		write(1, "Error: Could not open map file\n", 32);
-		return (0);
-	}
-	line_count = 0;
-	game->map = NULL;
-	//Ler cada linha do arquivo do Mapa ou matriz do jogo
-	while ((line = ft_get_next_line(fd)) != NULL)
-	{
-		// Substituir '\n' por '\0' para ajustar o término da linha.
-		if (line[ft_strlen(line) - 1] == '\n')
-		{
-			line[ft_strlen(line) - 1] = '\0';
-		}
-	
-		//Tamanho atual do mapa
-		old_size = line_count * sizeof(char *);
-		//Tamanho com espaço para nova linha
-		new_size = (line_count + 1) * sizeof(char *);
-		game->map = ft_realloc(game->map, old_size, new_size);
-		
-		//Em caso de falhar reallocar espaço
-		if (!game->map)
-		{
-			ft_free_map(game->map, line_count);
-			close(fd);
-			return (0);
-		}
-		game->map[line_count++] = line;
-	}
-	close(fd);
-	return(line_count > 0);
+    int fd, i = 0, len;
+    char *line;
+
+    // Inicializa contador de colecionáveis
+    game->collectibles = 0;
+
+    // Abre arquivo do mapa
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+        return (0);
+
+    // Aloca memória para armazenar o mapa
+    game->map = malloc(sizeof(char *) * 100); // Ajuste conforme necessário
+    if (!game->map)
+    {
+        close(fd);
+        return (0);
+    }
+
+    // Lê e armazena cada linha do mapa
+    while ((line = ft_get_next_line(fd)) != NULL)
+    {
+        len = ft_strlen(line);
+        if (len > 0 && line[len - 1] == '\n')
+            line[len - 1] = '\0';
+
+        game->map[i] = strdup(line);
+        free(line);
+        if (!game->map[i])
+        {
+            close(fd);
+            return (0);
+        }
+
+        // Identifica posição do jogador (`P`) e conta colecionáveis (`C`)
+        for (size_t j = 0; j < ft_strlen(game->map[i]); j++)
+        {
+            if (game->map[i][j] == 'P')
+            {
+                game->player_x = j;
+                game->player_y = i;
+            }
+            else if (game->map[i][j] == 'C')
+                game->collectibles++;
+        }
+        i++;
+    }
+
+    // Finaliza estrutura do mapa e fecha o arquivo
+    game->map[i] = NULL;
+    close(fd);
+
+    return (1);
 }
+
 
 /*
  * ft_check_map_dimensions - Calcula e valida dimensões do mapa
  * @game: Estrutura principal que contém o mapa
  * Retorna 1 se todas linhas tiverem mesmo comprimento, ou 0 caso contrário
  */
-static int	ft_check_map_dimensions(t_game *game)
+static int  ft_check_map_dimensions(t_game *game)
 {
-	int	i;
+    int i;
 
-	// Inicializar contador de linhas do mapa
-	game->map_height = 0;
-	//Obter tamanho da primeira linha completo
-	game->map_width = ft_strlen(game->map[0]);
-	
-	//Iniciar com a primeira linha do Matriz
-	i = 0;
-	while (game->map[i])
-	{
-		// Comparar o tamanho da linha atual com o da primeira linha
-		if ((int)ft_strlen(game->map[i]) != game->map_width)
-		{
-			write(1, "Error: Map rows must have the same width.\n", 42);
+    // Verificar se o mapa está corretamente carregado antes de usar
+    if (!game->map || !game->map[0])
+    {
+        printf("Erro: Mapa corrompido ou não carregado corretamente!\n");
+        return (0);
+    }
+
+    // Depuração: Verificar o primeiro elemento do mapa
+    printf("Debug: Primeiro elemento do mapa -> [%s]\n", game->map[0]);
+
+    // Obter tamanho da primeira linha
+    game->map_width = ft_strlen(game->map[0]);
+    printf("Dimensão inicial do mapa -> largura: %d\n", game->map_width);
+
+    // Depuração: Verificar `game->map` antes de calcular altura
+    printf("Depuração: Verificando estado do mapa antes de calcular altura...\n");
+    i = 0;
+    while (game->map[i])
+    {
+        printf("Linha %d -> [%s] (endereço: %p)\n", i, game->map[i], (void*)game->map[i]);
+        if (!game->map[i])
+        {
+            printf("Erro: Ponteiro inesperado NULL encontrado antes da verificação de altura!\n");
             return (0);
-		}
-		game->map_height++;
-	}
-	return (1);
+        }
+        i++;
+    }
+
+    // Calcular altura do mapa usando `while`
+    game->map_height = 0;
+    while (game->map[game->map_height])
+    {
+        printf("Depuração: Verificando `game->map[%d]` -> [%p]\n", game->map_height, game->map[game->map_height]);
+        game->map_height++;
+    }
+
+    // Ajuste final para evitar acesso fora dos limites
+    if (game->map_height > 0 && game->map[game->map_height] != NULL)
+    {
+        printf("Correção: Última posição do mapa não é NULL como esperado, ajustando altura...\n");
+        game->map_height--;
+    }
+
+    printf("Altura do mapa calculada: %d\n", game->map_height);
+
+    // Depuração: Verificar todas as linhas do mapa antes de validar
+    i = 0;
+    while (i < game->map_height)
+    {
+        printf("Depuração: Conferindo linha %d antes da validação -> [%s]\n", i, game->map[i]);
+
+        if (!game->map[i])
+        {
+            printf("Erro: Linha %d do mapa está NULL inesperadamente!\n", i);
+            return (0);
+        }
+
+        printf("Linha %d -> tamanho esperado: %d, tamanho real: %ld\n",
+            i, game->map_width, ft_strlen(game->map[i]));
+
+        // Comparar o tamanho da linha atual com o da primeira linha
+        if ((int)ft_strlen(game->map[i]) != game->map_width)
+        {
+            write(1, "Error: Map rows must have the same width.\n", 42);
+            return (0);
+        }
+        i++;
+    }
+
+    printf("Dimensões finais do mapa -> largura: [%d], altura: [%d]\n",
+        game->map_width, game->map_height);
+
+    return (1);
 }
+
+
 
 /*
  * ft_check_map_walls - Verifica se o mapa está cercado por paredes (1).
@@ -158,7 +229,9 @@ int	ft_check_map_walls(t_game *game)
  */
 int	ft_validate_map(char *file, t_game *game)
 {
-	if (!ft_read_map(file, game))// Validar a leitura do mapa a partir do arquivo
+	printf("2->Abrindo arquivo %s...\n", file);//Depuraçao
+	if (!ft_read_map(game, file))
+	if (!ft_read_map(game, file))// Validar a leitura do mapa a partir do arquivo
 	{
 		return (0);
 	}

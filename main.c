@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:06:11 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/30 01:08:35 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:29:28 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ int main(void)
     return (0);
 }
 */
+
 //map_validation.c  -> ft_map_validation OK
 //game_init.c -> ft_game_init OK
 //player_movement.c -> ft_player_moves OK
@@ -276,6 +277,7 @@ int main(void)
 //Main final do jogo
 int main(int argc, char **argv)
 {
+    printf("Iniciando programa...\n"); // Teste inicial
     t_game  game;
 
     if (argc != 2)
@@ -283,14 +285,29 @@ int main(int argc, char **argv)
         printf("Usage: ./so_long maps/map1.ber\n");
         return (1);
     }
-
+    
+    printf("Validando mapa...\n");
     if (!ft_validate_map(argv[1], &game))
+    {
+        printf("Erro ao validar o mapa!\n");
         return (1);
-
+    }    
+    
+    printf("Inicializando jogo...\n");
     ft_init_game(&game);
+    
+    printf("Carregando sprites...\n");
+    ft_load_sprites(&game);
+
+    printf("Renderizando mapa...\n");
     ft_render_map(&game);
-    mlx_key_hook(game.win, ft_handle_keypress, &game);
-    mlx_loop(game.mlx);
+
+    printf("Configurando eventos...\n");
+    mlx_key_hook(game.win, ft_handle_keypress, &game);  // Capturar teclas para mover o jogador
+    mlx_hook(game.win, 17, 1L << 17, ft_handle_close, &game);  // Capturar evento de fechamento da janela `[X]`
+
+    printf("Iniciando loop MLX...\n");
+    mlx_loop(game.mlx); // Iniciar o loop gráfico da MLX
 
     return (0);
 }

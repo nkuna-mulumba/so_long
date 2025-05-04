@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/27 16:08:45 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:35:58 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,39 +29,41 @@
  	- Marca a célula como visitada e propaga nas 4 direções: baixo, cima,
 	  direita, esquerda.
  */
-void	ft_flood_fill(t_flood *flood, int y, int x)
+void    ft_flood_fill(t_flood *flood, int y, int x)
 {
-	// Verifica se as coordenadas estão fora dos limites do mapa
-	if (y < 0 || x < 0 || y >= flood->map_height || x >= flood->map_width)
-	{
-		return ;//Coordenadas inválidas
-	}
-	// Verifica se a célula atual é uma parede ('1') ou já foi visitada ('X')
-	if (flood->map[y][x] == '1' || flood->map[y][x] == 'X')
-	{
-		return ; // Célula não acessível
-	}
+    // Verifica limites do mapa
+    if (y < 0 || x < 0 || y >= flood->map_height || x >= flood->map_width)
+    {
+        return ; 
+    }
 
-	//Processa celula actual
-	if (flood->map[y][x] == 'C')// Se a célula contém um colecionável ('C')
-	{
-		flood->collectibles--; // Reduz o número de colecionáveis restantes
-	}
-	else if (flood->map[y][x] == 'E') // Se a célula contém a saída ('E')
-	{
-		flood->exit_found = 1; //Saida foi encontrada
-	}
+    // Retorna se for parede ('1') ou já visitado ('X')
+    if (flood->map[y][x] == '1' || flood->map[y][x] == 'X')
+    {
+        return ; 
+    }
 
-	// Marca a célula como visitada
-	flood->map[y][x] = 'X';
+    // Marca colecionáveis e saída
+    if (flood->map[y][x] == 'C')
+    {
+        flood->collectibles--;
+        printf("Colecionável encontrado! Restantes: %d\n", flood->collectibles);//####
+    }
+    else if (flood->map[y][x] == 'E')
+    {
+        flood->exit_found = 1;
+        printf("Saída encontrada!\n");//####
+    }
 
-	// Propaga para as 4 direções
-	ft_flood_fill(flood, y + 1, x);//Abaixo
-	ft_flood_fill(flood, y - 1, x);//Cima
-	ft_flood_fill(flood, y, x + 1);//Direita
-	ft_flood_fill(flood, y, x - 1);//Esquerda
+    // Marca a célula como visitada
+    flood->map[y][x] = 'X';
+
+    // Exploração nas 4 direções
+    ft_flood_fill(flood, y + 1, x); // Abaixo
+    ft_flood_fill(flood, y - 1, x); // Cima
+    ft_flood_fill(flood, y, x + 1); // Direita
+    ft_flood_fill(flood, y, x - 1); // Esquerda
 }
-
 
 /*
  * Inicializa a estrutura auxiliar usada no Flood Fill.
@@ -70,10 +72,11 @@ void	ft_flood_fill(t_flood *flood, int y, int x)
 */
 static void ft_init_flood_struct(t_flood *flood, t_game *game)
 {
-	flood->collectibles = game->collectibles;
-	flood->exit_found = 0;
-	flood->map_height = game->map_height;
-	flood->map_width = game->map_width;
+    // Inicializa total de colectavel `C`
+    flood->collectibles = game->collectibles;
+    flood->exit_found = 0;
+    flood->map_height = game->map_height;
+    flood->map_width = game->map_width;
 }
 
 /*
@@ -84,20 +87,23 @@ static void ft_init_flood_struct(t_flood *flood, t_game *game)
 */
 static char **ft_create_map_copy(char **original_map, int map_height)
 {
-	char	**map_copy;
-	int		i;
-	//Validar mapa orginal
+	char    **map_copy;
+	int     i;
+
+	// Verifica entrada válida
 	if (!original_map || map_height <= 0)
     {
 		return (NULL);
-	}	
-	//Alocar memora para bidimencional
+	}
+	
+	// Aloca memória para matriz
 	map_copy = malloc(sizeof(char *) * map_height);
 	if (!map_copy)
 	{
-    	write(2, "Error: Failed to allocate memory for map copy\n", 46);
+    	write(2, "Error: Failed to allocate memory for map copy\n", 47);
     	return (NULL);
 	}
+    
 	//Duplicar mapa da estrutura "t_game" para "t_flood"
 	i = 0;
 	while ((i < map_height))
@@ -118,14 +124,22 @@ static char **ft_create_map_copy(char **original_map, int map_height)
  * @flood: Ponteiro para a estrutura auxiliar.
  * Retorna 1 se válido, 0 caso contrário.
 */
-static int ft_validate_flood_results(t_flood *flood)
+static int  ft_validate_flood_results(t_flood *flood)
 {
-	if (flood->collectibles != 0 || !flood->exit_found)
-	{
-		write(1, "Error: No valid path (collectibles or exit unreachable)\n", 52);
+    // Ajusta contagem inválida de colecionáveis
+    if (flood->collectibles < 0)
+    {
+        printf("Erro: Contagem inválida de colecionáveis! Ajustando para 0.\n");//####
+        flood->collectibles = 0;
+    }
+
+    // Retorna erro se colecionáveis ou saída não forem acessíveis
+    if (flood->collectibles != 0 || !flood->exit_found)
+    {
+        write(1, "Error: No valid path (collectibles or exit unreachable)\n", 57);
         return (0);
-	}
-	return (1);
+    }
+    return (1);
 }
 
 /*
@@ -133,28 +147,45 @@ static int ft_validate_flood_results(t_flood *flood)
  * Cria uma cópia do mapa, executa Flood Fill e valida acessibilidade.
  * Retorna 1 se válido, 0 caso contrário.
 */
-int	ft_flood_fill_check(t_game *game)
+int ft_flood_fill_check(t_game *game)
 {
-	t_flood flood;
-	char	**map_copy;
+    t_flood flood;
+    char    **map_copy;
 
-	// Inicializa a estrutura auxiliar para o Flood Fill
-	ft_init_flood_struct(&flood, game);
-	
-	// Cria uma cópia do mapa original
-	map_copy = ft_create_map_copy(game->map, game->map_height);
-	if (!map_copy)
-	{
-		return (0);
-	}
-	
-	// Executa o Flood Fill a partir da posição do jogador
-	flood.map = map_copy;
-	ft_flood_fill(&flood, game->player_y, game->exit_x);
+    // Inicializa estrutura auxiliar
+    ft_init_flood_struct(&flood, game);
+    
+    // Criar cópia do mapa original
+    map_copy = ft_create_map_copy(game->map, game->map_height);
+    if (!map_copy)
+    {
+        return (0);
+    }
+    
+    flood.map = map_copy;
 
-	// Libera a memória do mapa copiado
-	ft_free_map(map_copy, game->map_height);
+    //Valida posição inicial do jogador
+    if (game->player_x < 0 || game->player_y < 0)
+    {
+        printf("Erro: Posição do jogador (`P`) não encontrada no mapa!\n");//####
+        ft_free_map(map_copy, game->map_height);
+        return (0);
+    }
 
-	// Verifica se o caminho é válido
-	return (ft_validate_flood_results(&flood));	
+    // Exibir o mapa antes da validação ####
+    // for (int j = 0; j < game->map_height; j++)
+    //     printf("%s\n", map_copy[j]);
+
+    //Executa Flood Fill a partir da posição do jogador
+    ft_flood_fill(&flood, game->player_y, game->player_x);
+
+    // Exibir o mapa após execução do Flood Fill
+    // for (int j = 0; j < game->map_height; j++)
+    //     printf("%s\n", map_copy[j]);
+
+    // Liberar memória do mapa copiado
+    ft_free_map(map_copy, game->map_height);
+
+    // Validar se todos os colecionáveis e saída foram alcançados
+    return (ft_validate_flood_results(&flood)); 
 }
