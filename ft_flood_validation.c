@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/03 23:35:58 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:35:57 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,22 @@ void    ft_flood_fill(t_flood *flood, int y, int x)
 {
     // Verifica limites do mapa
     if (y < 0 || x < 0 || y >= flood->map_height || x >= flood->map_width)
-    {
         return ; 
-    }
 
     // Retorna se for parede ('1') ou já visitado ('X')
     if (flood->map[y][x] == '1' || flood->map[y][x] == 'X')
-    {
         return ; 
-    }
 
     // Marca colecionáveis e saída
     if (flood->map[y][x] == 'C')
     {
         flood->collectibles--;
-        printf("Colecionável encontrado! Restantes: %d\n", flood->collectibles);//####
+        // printf("Colecionável encontrado! Restantes: %d\n", flood->collectibles);//####
     }
     else if (flood->map[y][x] == 'E')
     {
         flood->exit_found = 1;
-        printf("Saída encontrada!\n");//####
+        // printf("Saída encontrada!\n");//####
     }
 
     // Marca a célula como visitada
@@ -92,9 +88,7 @@ static char **ft_create_map_copy(char **original_map, int map_height)
 
 	// Verifica entrada válida
 	if (!original_map || map_height <= 0)
-    {
 		return (NULL);
-	}
 	
 	// Aloca memória para matriz
 	map_copy = malloc(sizeof(char *) * map_height);
@@ -129,7 +123,6 @@ static int  ft_validate_flood_results(t_flood *flood)
     // Ajusta contagem inválida de colecionáveis
     if (flood->collectibles < 0)
     {
-        printf("Erro: Contagem inválida de colecionáveis! Ajustando para 0.\n");//####
         flood->collectibles = 0;
     }
 
@@ -158,9 +151,7 @@ int ft_flood_fill_check(t_game *game)
     // Criar cópia do mapa original
     map_copy = ft_create_map_copy(game->map, game->map_height);
     if (!map_copy)
-    {
         return (0);
-    }
     
     flood.map = map_copy;
 
@@ -172,16 +163,8 @@ int ft_flood_fill_check(t_game *game)
         return (0);
     }
 
-    // Exibir o mapa antes da validação ####
-    // for (int j = 0; j < game->map_height; j++)
-    //     printf("%s\n", map_copy[j]);
-
     //Executa Flood Fill a partir da posição do jogador
     ft_flood_fill(&flood, game->player_y, game->player_x);
-
-    // Exibir o mapa após execução do Flood Fill
-    // for (int j = 0; j < game->map_height; j++)
-    //     printf("%s\n", map_copy[j]);
 
     // Liberar memória do mapa copiado
     ft_free_map(map_copy, game->map_height);

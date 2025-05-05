@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:39:48 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/28 02:13:48 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:49:12 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ static int  ft_init_elements(t_game *game)
             }
             // Se encontrar um colecionável ('C'), aumenta o contador
             else if (game->map[y][x] == 'C')
-            {
                 game->collectibles++;
-            }
         }
     }
     // Se o jogador ('P') ou a saída ('E') não forem encontrados, retorna erro
@@ -152,3 +150,8 @@ int ft_init_game(t_game *game)
     }
     return (1);// Sucesso na inicialização do jogo
 }
+
+/*
+    Obs:
+    Diminuir as linhas da funçao "ft_init_elements"
+*/

@@ -9,6 +9,7 @@ SRCS = ft_map_validation.c\
 	ft_render.c\
 	ft_map_memory.c\
 	ft_player_moves.c\
+	ft_map_loader.c\
 	main.c
 
 OBJS = $(SRCS:.c=.o)

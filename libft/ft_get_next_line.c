@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:05:16 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/03 00:34:13 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:08:22 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,9 @@ char    *ft_get_next_line(int fd)
     static int  buffer_pos = 0;
     char        *line;
 
-    // Depuração para verificar BUFFER_SIZE
-    printf("Depuração: BUFFER_SIZE atual = %d\n", BUFFER_SIZE);
-
-    // Verificar entrada inválida
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-
     line = NULL;
-
     while (1)
     {
         if (buffer_pos >= buffer_read)
@@ -168,18 +162,13 @@ char    *ft_get_next_line(int fd)
             if (buffer_read <= 0)
                 break ;
         }
-
-        // Inicializar `line` corretamente antes da concatenação
         if (!line)
-            line = strdup("");
-
+            line = ft_strdup("");
         line = update_line(line, buffer, &buffer_pos);
         if (!line)
             return (NULL);
-
         if (line[ft_len(line) - 1] == '\n')
             break ;
     }
-
     return (line);
 }

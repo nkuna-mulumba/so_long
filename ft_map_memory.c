@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:49:13 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/30 00:27:54 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:53:17 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,10 @@ int	ft_handle_close(t_game *game)
     ft_close_game(game);
     return (0);
 }
+
+
+/*
+    Obs:
+    A funçao (ft_free_sprites) nao pode assumir quantidade de sprites
+	carregadas sem colocar (4)?
+*/

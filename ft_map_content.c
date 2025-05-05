@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 21:22:38 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/28 01:29:14 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:49:29 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,11 @@ static void	ft_count_map_elements(t_game *game, int *p, int *e, int *c)
 		{
 			// Incrementa contadores com base nos elementos encontrados
 			if (game->map[i][j] == 'P')
-			{
 				(*p)++;
-			}
 			else if (game->map[i][j] == 'E')
-			{
 				(*e)++;
-			}
 			else if (game->map[i][j] == 'C')
-			{
 				(*c)++;
-			}
 			j++;
 		}
 		i++;

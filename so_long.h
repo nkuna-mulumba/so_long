@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/30 00:26:45 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:04:33 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include "mnlbx/mlx.h" //Biblioteca de MiniLibX
 
 // ==Teclas para movimentação e saída==
-// # define TILE_SIZE 64 // Tamanho dos sprites (em pixels)
-# define TILE_SIZE 80 //Acualizado segundo valor dos arquivos .xpm descarregadas
+# define TILE_SIZE 80 //Tamanho dos Sprites
 # define KEY_ESC 65307   // ESC: encerrar jogo
 # define KEY_W 119     // W: movimento para cima
 # define KEY_A 97      // A: movimento para esquerda
@@ -81,8 +80,8 @@ void	ft_free_map(char	**map, int line_count);
 void	ft_close_game(t_game *game);
 //Funçao captura evento de fechamento da janela e encerra o jogo
 int		ft_handle_close(t_game *game);
-//Verifica se todas as bordas do mapa são paredes(1)
-int		ft_check_map_walls(t_game *game);
+//Funçao para coordenar a leitura do arquivo e processamento das linhas do mapa
+int		ft_read_map(t_game *game, const char *filename);
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)
 int		ft_check_map_content(t_game *game);
 
@@ -96,7 +95,8 @@ void	ft_flood_fill(t_flood *flood, int y, int x);
 */
 int		ft_flood_fill_check(t_game *game);
 
-
+//Verifica se todas as bordas do mapa são paredes(1)
+int		ft_check_map_walls(t_game *game);
 // Validar Map, chamando todas funçoes anteriores
 int		ft_validate_map(char *file, t_game *game);
 //Carrega sprites do jogo e armazena na estrutura game

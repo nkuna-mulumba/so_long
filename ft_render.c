@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:49:39 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/04/30 00:56:12 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:52:06 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param game: Ponteiro para a estrutura principal do jogo (t_game),
                onde as imagens serão armazenadas.
  */
-void ft_load_sprites(t_game *game)
+void    ft_load_sprites(t_game *game)
 {
     int sprite_width;  //Para armazenar largura da imagen carregada
     int sprite_height; //Para armazenar altura da imagem cerregada
@@ -37,9 +37,7 @@ void ft_load_sprites(t_game *game)
     // Evita carregamento desnecessário
     game->sprites_loaded = 0;
     if (game->sprites_loaded == 1)
-    {
         return;
-    }
     
     // Carregar as imagens usando while
     i = 0;
@@ -80,21 +78,13 @@ static void ft_draw_tile(t_game *game, int x, int y)
     pos_x = x * TILE_SIZE;
     pos_y = y * TILE_SIZE;
     if (game->map[y][x] == '1')
-    {
         img = game->sprites[3]; // Paredes
-    }
     else if (game->map[y][x] == 'C')
-    {
         img = game->sprites[0]; // Colecionáveis
-    }
     else if (game->map[y][x] == 'E')
-    {
         img = game->sprites[1]; // Saída
-    }
     else if (game->map[y][x] == 'P')
-    {
         img = game->sprites[2]; // Jogador
-    }
 
     //Colocar imagem na janela
     if (img)

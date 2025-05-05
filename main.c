@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:06:11 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/03 16:29:28 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:54:46 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,46 +268,41 @@ int main(void)
 }
 */
 
-//map_validation.c  -> ft_map_validation OK
-//game_init.c -> ft_game_init OK
-//player_movement.c -> ft_player_moves OK
-//graphics_render.c -> ft_render OK
-
 
 //Main final do jogo
 int main(int argc, char **argv)
 {
-    printf("Iniciando programa...\n"); // Teste inicial
     t_game  game;
 
     if (argc != 2)
     {
-        printf("Usage: ./so_long maps/map1.ber\n");
+        write(2, "Usage: ./so_long maps/map1.ber\n", 32);
         return (1);
     }
     
-    printf("Validando mapa...\n");
+    //Validar Mapa
     if (!ft_validate_map(argv[1], &game))
     {
-        printf("Erro ao validar o mapa!\n");
+        write(2, "Error validating the map!\n", 27);
         return (1);
     }    
     
-    printf("Inicializando jogo...\n");
+    //Iniciar jogo
     ft_init_game(&game);
     
-    printf("Carregando sprites...\n");
+    //Carregamentos dos sprites
     ft_load_sprites(&game);
 
-    printf("Renderizando mapa...\n");
+    //Redicionar mapa
     ft_render_map(&game);
 
-    printf("Configurando eventos...\n");
+    //Configurar eventos
     mlx_key_hook(game.win, ft_handle_keypress, &game);  // Capturar teclas para mover o jogador
     mlx_hook(game.win, 17, 1L << 17, ft_handle_close, &game);  // Capturar evento de fechamento da janela `[X]`
 
-    printf("Iniciando loop MLX...\n");
+    //Inicializar Minilibx
     mlx_loop(game.mlx); // Iniciar o loop gráfico da MLX
 
     return (0);
 }
+//Imprimdir cada passo del movimento
