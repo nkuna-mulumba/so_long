@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:16:41 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/05 15:44:17 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:25:58 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void    ft_check_victory(t_game *game)
         game->collectibles == 0)
     {
         printf("You win! Total moves: %d\n", game->moves);//Depois substituir printf por ft_printf
-        ft_close_game(game); // Encerra o jogo com segurança
+        //Encerra o jogo com segurança
+        ft_close_game(game);
     }
 }
 
@@ -97,14 +98,14 @@ void    ft_move_player(t_game *game, int dx, int dy)
     int new_x = game->player_x + dx;
     int new_y = game->player_y + dy;
 
-    // Verifica colisões antes de mover
+    //Verifica colisões antes de mover
     if (ft_handle_collision(game, new_x, new_y))
         return;
 
-    // Atualiza coletáveis se houver um item na nova posição
+    //Atualiza coletáveis se houver um item na nova posição
     ft_handle_collectibles(game, new_x, new_y);
 
-    // Atualiza posição do jogador
+    //Atualiza posição do jogador
     game->map[game->player_y][game->player_x] = '0'; // Remove posição antiga
     game->player_x = new_x;
     game->player_y = new_y;
@@ -114,10 +115,10 @@ void    ft_move_player(t_game *game, int dx, int dy)
     ft_putendl_fd(ft_strjoin("playes moves -> ",ft_itoa(game->moves)),0);
     game->moves++;
 
-    // Atualiza a tela após o movimento
+    //Atualizar tela após o movimento
     ft_render_map(game);
 
-    // Verifica condição de vitória
+    //Verifica condição de vitória
     ft_check_victory(game);
 }
 

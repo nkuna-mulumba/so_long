@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 21:22:38 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/05 13:49:29 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:01:54 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_validate_map_characters(t_game *game)
 		j = 0;
 		while (j < game->map_width)
 		{
-			// Verifica se o caractere atual é inválido
+			//Verifica se caractere atual é inválido
 			if (game->map[i][j] != 'P' && game->map[i][j] != 'E' &&
 				game->map[i][j] != 'C' && game->map[i][j] != '0' &&
 				game->map[i][j] != '1')
@@ -49,7 +49,7 @@ static int	ft_validate_map_characters(t_game *game)
 		}
 		i++;
 	}
-	return(1);// Todos os caracteres são válidos
+	return(1);
 }
 
 /*
@@ -79,7 +79,7 @@ static void	ft_count_map_elements(t_game *game, int *p, int *e, int *c)
 		j = 0;
 		while (j < game->map_width)
 		{
-			// Incrementa contadores com base nos elementos encontrados
+			//Incrementa contadores com base nos elementos encontrados
 			if (game->map[i][j] == 'P')
 				(*p)++;
 			else if (game->map[i][j] == 'E')
@@ -89,7 +89,7 @@ static void	ft_count_map_elements(t_game *game, int *p, int *e, int *c)
 			j++;
 		}
 		i++;
-	}	
+	}
 }
 
 /*
@@ -111,16 +111,16 @@ int	ft_check_map_content(t_game *game)
 	int	e; // Saída
 	int	c; // Colecionáveis
 	
-	// Validar caracteres no mapa
+	//Validar caracteres no mapa
 	if (!ft_validate_map_characters(game))
 	{
 		write(1, "Error: Invalid map characters\n", 29);
 		return (0);
 	}
-	// Contar os elementos obrigatórios
+	//Contar elementos obrigatórios
 	ft_count_map_elements(game, &p, &e, &c);
 
-	// Verificar se há 1 jogador, pelo menos 1 saída, e 1 colecionável
+	//Verificar se há 1 jogador, pelo menos 1 saída, e 1 colecionável
 	if (p != 1 )
 	{
 		write(1, "Error: Need exactly 1 'P'\n", 25);
@@ -136,5 +136,5 @@ int	ft_check_map_content(t_game *game)
         write(1, "Error: Need at least 1 'C'\n", 26);
         return (0);
     }
-	return (1);// Mapa válido
+	return (1);
 }

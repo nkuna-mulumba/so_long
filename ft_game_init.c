@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:39:48 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/05 16:49:12 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:58:18 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int  ft_init_mlx(t_game *game)
     int     window_height;
     char    *window_name;
     
-    // Inicializa a instância gráfica da MiniLibX
+    //Inicializar instância gráfica da MiniLibX
     game->mlx = mlx_init();
     if (!game->mlx)
     {
@@ -42,7 +42,7 @@ static int  ft_init_mlx(t_game *game)
     window_height = game->map_height * TILE_SIZE;
     //Nome fixada na janela do jogo
     window_name = "so_long";
-    // Cria uma nova janela com largura, altura e título especificados
+    //Criar nova janela com largura, altura e título especificados
     game->win = mlx_new_window(game->mlx, window_width, window_height, window_name);
     
     if (!game->win)
@@ -51,7 +51,7 @@ static int  ft_init_mlx(t_game *game)
         write(2, "Error: Window creation failed\n", 29);
         return (0);
     }
-    return (1); // Sucesso na inicialização gráfica
+    return (1);
 }
 
 /*
@@ -70,7 +70,7 @@ static int  ft_init_elements(t_game *game)
     int y;
     int x;
 
-    // Inicializa variáveis para rastrear os elementos
+    //Inicializar variáveis para rastrear os elementos
     game->player_found = 0;
     game->exit_found = 0;
     game->collectibles = 0;
@@ -82,32 +82,32 @@ static int  ft_init_elements(t_game *game)
         x = -1;
         while (++x < game->map_width)
         {
-            // Se encontrar o jogador ('P') e ainda não tiver sido registrado
+            //Se encontrar o jogador ('P') e ainda não tiver sido registrado
             if (game->map[y][x] == 'P' && !game->player_found)
             {
                 game->player_x = x;
                 game->player_y = y;
                 game->player_found = 1; // Marca que o jogador foi encontrado
             }
-            // Se encontrar a saída ('E') e ainda não tiver sido registrada
+            //Se encontrar a saída ('E') e ainda não tiver sido registrada
             else if (game->map[y][x] == 'E' && !game->exit_found)
             {
                 game->exit_x = x;
                 game->exit_y = y;
                 game->exit_found = 1; // Marca que a saída foi encontrada
             }
-            // Se encontrar um colecionável ('C'), aumenta o contador
+            //Se encontrar um colecionável ('C'), aumenta o contador
             else if (game->map[y][x] == 'C')
                 game->collectibles++;
         }
     }
-    // Se o jogador ('P') ou a saída ('E') não forem encontrados, retorna erro
+    //Se jogador ('P') ou a saída ('E') não forem encontrados, retorna erro
     if (!game->player_found || !game->exit_found)
     {
         write(2, "Error: Missing player ('P') or exit ('E')\n", 42);
         return (0);
     }
-    return (1);// Sucesso ao localizar elementos obrigatórios
+    return (1);
 }
 
 /*
@@ -128,27 +128,27 @@ static int  ft_init_elements(t_game *game)
  */
 int ft_init_game(t_game *game)
 {
-    // Inicializa o contador de movimentos do jogador
+    //Inicializa o contador de movimentos do jogador
     game->moves = 0;
 
-    // Verifica inicialização gráfica e elementos do mapa
+    //Verifica inicialização gráfica e elementos do mapa
     if (!ft_init_mlx(game) || !ft_init_elements(game))
     {
-        // Libera recursos gráficos em caso de falha
+        //Libera recursos gráficos em caso de falha
         if (game->mlx)
         {
             if (game->win)
             {
-                // Destroi a janela caso tenha sido criada
+                //Destroi a janela caso tenha sido criada
                 mlx_destroy_window(game->mlx, game->win);
             }
-            // Libera instância do sistema gráfico
+            //Libera instância do sistema gráfico
             free(game->mlx);
         }
-        // Retorna falha
+        //Retorna falha
         return (0);
     }
-    return (1);// Sucesso na inicialização do jogo
+    return (1);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:49:39 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/05 15:52:06 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:28:50 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void    ft_load_sprites(t_game *game)
     int sprite_height; //Para armazenar altura da imagem cerregada
     int i;
     
-    // Array com caminhos dos arquivos de imagens dos sprites usados no jogo
+    //Array com caminhos dos arquivos de imagens dos sprites do jogo
     char  *sprit_files[] =
     {
         "assets/collectible.xpm",
@@ -34,7 +34,7 @@ void    ft_load_sprites(t_game *game)
         "assets/wall.xpm"
     };
     
-    // Evita carregamento desnecessário
+    //Evitar carregamento desnecessário
     game->sprites_loaded = 0;
     if (game->sprites_loaded == 1)
         return;
@@ -44,7 +44,7 @@ void    ft_load_sprites(t_game *game)
     while (i < 4)
     {
         game->sprites[i] = mlx_xpm_file_to_image(game->mlx, sprit_files[i], &sprite_width, &sprite_height);
-        // Verifica se houve erro ao carregar alguma imagem
+        //Verificar se houve erro ao carregar alguma imagem
         if (!game->sprites[i])
         {
             write(2, "Error: Failed to load sprite\n", 30);
@@ -53,7 +53,7 @@ void    ft_load_sprites(t_game *game)
         i++;
     }
     
-    // Marca que os sprites foram carregados
+    //Marcar que os sprites foram carregados
     game->sprites_loaded = 1;
 }
 

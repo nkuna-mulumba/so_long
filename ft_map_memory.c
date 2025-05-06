@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:49:13 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/05 13:53:17 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:20:06 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static	void	ft_free_sprites(t_game *game)
         i++;
     }
 }
-
 
 /*
  * ft_close_game - Encerra o jogo, liberando memória e fechando a janela.
