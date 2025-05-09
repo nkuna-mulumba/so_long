@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 21:22:38 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/06 16:01:54 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:35:34 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * - 1, se todos os caracteres do mapa forem válidos.
  * - 0, se houver algum caractere inválido no mapa, e imprime uma mensagem de erro.
 */
-static int	ft_validate_map_characters(t_game *game)
+int	ft_validate_map_characters(t_game *game)
 {
 	int	i;
 	int	j;
@@ -42,7 +42,7 @@ static int	ft_validate_map_characters(t_game *game)
 				game->map[i][j] != 'C' && game->map[i][j] != '0' &&
 				game->map[i][j] != '1')
 			{
-				write(1, "Error: Invalid character\n", 26);
+				write(2, "Error: Invalid character\n", 26);
 				return (0);
 			}
 			j++;
@@ -65,32 +65,67 @@ static int	ft_validate_map_characters(t_game *game)
  * Esta função não retorna um valor diretamente. 
    Resultados da contagem são armazenados nos ponteiros fornecidos.
 */
-static void	ft_count_map_elements(t_game *game, int *p, int *e, int *c)
-{
-	int	i;
-	int	j;
+// void	ft_count_map_elements(t_game *game, int *p, int *e, int *c)
+// {
+// 	int	i;
+// 	int	j;
 	
-	*p = 0;
-	*e = 0;
-	*c = 0;
-	i = 0;
-	while (i < game->map_height)
-	{
-		j = 0;
-		while (j < game->map_width)
-		{
-			//Incrementa contadores com base nos elementos encontrados
-			if (game->map[i][j] == 'P')
-				(*p)++;
-			else if (game->map[i][j] == 'E')
-				(*e)++;
-			else if (game->map[i][j] == 'C')
-				(*c)++;
-			j++;
-		}
-		i++;
-	}
+// 	*p = 0;
+// 	*e = 0;
+// 	*c = 0;
+// 	i = 0;
+// 	while (i < game->map_height)
+// 	{
+// 		j = 0;
+// 		while (j < game->map_width)
+// 		{
+// 			//Incrementa contadores com base nos elementos encontrados
+// 			if (game->map[i][j] == 'P')
+// 				(*p)++;
+// 			else if (game->map[i][j] == 'E')
+// 				(*e)++;
+// 			else if (game->map[i][j] == 'C')
+// 				(*c)++;
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
+void ft_count_map_elements(t_game *game, int *p, int *e, int *c)
+{
+    int i, j;
+    
+    *p = 0;
+    *e = 0;
+    *c = 0;
+
+    printf("DEBUG: Iniciando contagem dos elementos...\n");
+
+    for (i = 0; i < game->map_height; i++)
+    {
+        for (j = 0; j < game->map_width; j++)
+        {
+            if (game->map[i][j] == 'P')
+            {
+                *p += 1;
+                game->player_x = j;
+                game->player_y = i;
+                printf("DEBUG: Posição do jogador identificada - X: %d, Y: %d\n", game->player_x, game->player_y);
+            }
+            else if (game->map[i][j] == 'E')
+                *e += 1;
+            else if (game->map[i][j] == 'C')
+                *c += 1;
+        }
+    }
+
+    printf("DEBUG: Contagem final - P: %d | E: %d | C: %d\n", *p, *e, *c);
 }
+
+
+
+
+
 
 /*
  * ft_check_map_content - Valida o conteúdo do mapa do jogo
@@ -114,7 +149,7 @@ int	ft_check_map_content(t_game *game)
 	//Validar caracteres no mapa
 	if (!ft_validate_map_characters(game))
 	{
-		write(1, "Error: Invalid map characters\n", 29);
+		write(2, "Error: Invalid map characters\n", 31);
 		return (0);
 	}
 	//Contar elementos obrigatórios
@@ -123,17 +158,17 @@ int	ft_check_map_content(t_game *game)
 	//Verificar se há 1 jogador, pelo menos 1 saída, e 1 colecionável
 	if (p != 1 )
 	{
-		write(1, "Error: Need exactly 1 'P'\n", 25);
+		write(2, "Error: Need exactly 1 'P'\n", 27);
         return (0);
 	}
 	if (e != 1 )
 	{
-		write(1, "Error: Need exactly 1 'E'\n", 25);
+		write(2, "Error: Need exactly 1 'E'\n", 27);
         return (0);
 	}
 	if (c < 1)
     {
-        write(1, "Error: Need at least 1 'C'\n", 26);
+        write(2, "Error: Need at least 1 'C'\n", 28);
         return (0);
     }
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:16:41 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/06 16:25:58 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:41:40 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,3 +168,9 @@ int ft_handle_keypress(int keycode, t_game *game)
     
     return (0);
 }
+
+/*
+    substituir "printf" em funçoes:
+    ft_handle_collectibles;
+    ft_handle_collectibles;
+*/

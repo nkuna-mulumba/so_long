@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:06:11 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/06 16:31:56 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:02:54 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ int main(int argc, char **argv)
     //Validar Mapa
     if (!ft_validate_map(argv[1], &game))
     {
-        write(2, "Error validating the map!\n", 27);
+        write(2, "Error: Validating the map!\n", 27);
         return (1);
     }    
     
@@ -305,4 +305,4 @@ int main(int argc, char **argv)
 
     return (0);
 }
-//Imprimdir cada passo del movimento
+

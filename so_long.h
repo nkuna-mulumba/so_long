@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/05 18:04:33 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:12:13 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ void	ft_free_map(char	**map, int line_count);
 void	ft_close_game(t_game *game);
 //Funçao captura evento de fechamento da janela e encerra o jogo
 int		ft_handle_close(t_game *game);
+
+
+
+int	ft_validate_map_characters(t_game *game);
+void	ft_count_map_elements(t_game *game, int *p, int *e, int *c);
+
 //Funçao para coordenar a leitura do arquivo e processamento das linhas do mapa
 int		ft_read_map(t_game *game, const char *filename);
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)

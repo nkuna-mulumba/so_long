@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:39:48 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/06 15:58:18 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:56:21 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ static int  ft_init_elements(t_game *game)
             {
                 game->player_x = x;
                 game->player_y = y;
-                game->player_found = 1; // Marca que o jogador foi encontrado
+                game->player_found = 1; //Marca que o jogador foi encontrado
             }
             //Se encontrar a saída ('E') e ainda não tiver sido registrada
             else if (game->map[y][x] == 'E' && !game->exit_found)
             {
                 game->exit_x = x;
                 game->exit_y = y;
-                game->exit_found = 1; // Marca que a saída foi encontrada
+                game->exit_found = 1; //Marca que a saída foi encontrada
             }
             //Se encontrar um colecionável ('C'), aumenta o contador
             else if (game->map[y][x] == 'C')
