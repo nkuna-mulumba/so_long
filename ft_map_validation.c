@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/09 16:06:22 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:20:07 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,30 @@
  * ft_check_map_dimensions - Calcula e valida dimensões do mapa
  * @game: Estrutura principal que contém o mapa
  * Retorna 1 se todas linhas tiverem mesmo comprimento, ou 0 caso contrário
- */
-static int	ft_check_map_dimensions(t_game *game)
-{
+*/
+ int	ft_check_map_dimensions(t_game *game)
+ {
     int	i;
-
+    
     //Verificar se mapa está corretamente carregado antes de usar
     if (!game->map || !game->map[0])
     {
         write(2, "Error: Invalid or corrupted map.\n", 34);
         return (0);
     }
-
+    
     //Obter tamanho da primeira linha
     game->map_width = ft_strlen(game->map[0]);
-
+    
     //Calcular altura do mapa usando
     game->map_height = 0;
     while (game->map[game->map_height])
-        game->map_height++;
-
+    game->map_height++;
+    
     //Ajuste final para evitar acesso fora dos limites
     if (game->map_height > 0 && game->map[game->map_height] != NULL)
-        game->map_height--;
- 
+    game->map_height--;
+    
     //Verificar todas linhas do mapa antes de validar
     i = 0;
     while (i < game->map_height)
@@ -49,7 +49,7 @@ static int	ft_check_map_dimensions(t_game *game)
             write(2, "Error: Unexpected NULL row in map.\n", 36);
             return (0);
         }
-
+        
         //Comparar tamanho da linha atual com o da primeira linha
         if ((int)ft_strlen(game->map[i]) != game->map_width)
         {
@@ -60,6 +60,7 @@ static int	ft_check_map_dimensions(t_game *game)
     }
     return (1);
 }
+
 
 /*
  * ft_check_map_walls - Verifica se o mapa está cercado por paredes (1).
@@ -72,7 +73,7 @@ static int	ft_check_map_dimensions(t_game *game)
  	- 1, se o mapa estiver corretamente cercado por paredes.
  	- 0, caso contrário, indicando um erro na formação das bordas.
 */
-int ft_check_map_walls(t_game *game)
+static int ft_check_map_walls(t_game *game)
 {
     int i;
 

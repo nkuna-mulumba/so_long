@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/09 16:31:43 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/11 14:25:49 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,35 +28,7 @@
  	- Reduz o contador de 'C' ou marca a saída ('E') como alcançada.
  	- Marca a célula como visitada e propaga nas 4 direções: baixo, cima,
 	  direita, esquerda.
-void    ft_flood_fill(t_flood *flood, int y, int x)
-{
-    //Verificar limites do mapa
-    if (y < 0 || x < 0 || y >= flood->map_height || x >= flood->map_width)
-        return ;
-
-    //Retornar se for parede ('1') ou já visitado ('X')
-    if (flood->map[y][x] == '1' || flood->map[y][x] == 'X')
-        return ; 
-
-    //Marcar colecionáveis e saída
-    if (flood->map[y][x] == 'C')
-        flood->collectibles--;
-    else if (flood->map[y][x] == 'E')
-        flood->exit_found = 1;
-
-    //Marcar a célula como visitada
-    flood->map[y][x] = 'X';
-
-    //Exploração nas 4 direções
-    ft_flood_fill(flood, y + 1, x); // Abaixo
-
-    ft_flood_fill(flood, y - 1, x); // Cima
-
-    ft_flood_fill(flood, y, x + 1); // Direita
-
-    ft_flood_fill(flood, y, x - 1); // Esquerda
-}
- */
+*/
 void ft_flood_fill(t_flood *flood, int y, int x)
 {
     // Verificar limites do mapa
@@ -71,7 +43,7 @@ void ft_flood_fill(t_flood *flood, int y, int x)
     printf("DEBUG: Visitando célula [%d][%d] - Conteúdo: %c\n", y, x, flood->map[y][x]);
 
     // Marcar colecionáveis e saída
-    if (flood->map[y][x] == 'C')
+    if (flood->map[y][x] == 'C' && flood->collectibles > 0)
     {
         flood->collectibles--;
         printf("DEBUG: Coletável encontrado em [%d][%d], restantes: %d\n", y, x, flood->collectibles);
@@ -95,8 +67,8 @@ void ft_flood_fill(t_flood *flood, int y, int x)
 
 
 /*
- * Inicializa a estrutura auxiliar usada no Flood Fill.
- * @flood: Ponteiro para a estrutura auxiliar.
+* Inicializa a estrutura auxiliar usada no Flood Fill.
+* @flood: Ponteiro para a estrutura auxiliar.
  * @game: Ponteiro para a estrutura principal do jogo.
 */
 static void ft_init_flood_struct(t_flood *flood, t_game *game)
@@ -151,22 +123,6 @@ static char **ft_create_map_copy(char **original_map, int map_height)
  * Valida os resultados do Flood Fill.
  * @flood: Ponteiro para a estrutura auxiliar.
  * Retorna 1 se válido, 0 caso contrário.
-static int  ft_validate_flood_results(t_flood *flood)
-{
-    // Ajustar contagem inválida de colecionáveis
-    if (flood->collectibles < 0)
-    {
-        flood->collectibles = 0;
-    }
-
-    // Retornar erro se colecionáveis ou saída não forem acessíveis
-    if (flood->collectibles != 0 || !flood->exit_found)
-    {
-        write(2, "Error: No valid path (collectibles or exit unreachable)\n", 57);
-        return (0);
-    }
-    return (1);
-}
 */
 static int ft_validate_flood_results(t_flood *flood)
 {
@@ -189,43 +145,10 @@ static int ft_validate_flood_results(t_flood *flood)
     return (1);
 }
 
-
-
 /*
  * Verifica se o mapa é válido usando o algoritmo Flood Fill.
  * Cria uma cópia do mapa, executa Flood Fill e valida acessibilidade.
  * Retorna 1 se válido, 0 caso contrário.
-int ft_flood_fill_check(t_game *game)
-{
-    t_flood flood;
-    char    **map_copy;
-
-    // Inicializar estrutura auxiliar
-    ft_init_flood_struct(&flood, game);
-    
-    // Criar cópia do mapa original
-    map_copy = ft_create_map_copy(game->map, game->map_height);
-    if (!map_copy)
-        return (0);
-    
-    flood.map = map_copy;
-
-    //Validar posição inicial do jogador
-    if (game->player_x < 0 || game->player_y < 0)
-    {
-        ft_free_map(map_copy, game->map_height);
-        return (0);
-    }
-
-    //Executar Flood Fill a partir da posição do jogador
-    ft_flood_fill(&flood, game->player_y, game->player_x);
-
-    //Liberar memória do mapa copiado
-    ft_free_map(map_copy, game->map_height);
-
-    //Validar se todos os colecionáveis e saída foram alcançados
-    return (ft_validate_flood_results(&flood)); 
-}
 */
 int ft_flood_fill_check(t_game *game)
 {

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 21:22:38 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/09 16:35:34 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/11 15:31:05 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * - 1, se todos os caracteres do mapa forem válidos.
  * - 0, se houver algum caractere inválido no mapa, e imprime uma mensagem de erro.
 */
-int	ft_validate_map_characters(t_game *game)
+static int	ft_validate_map_characters(t_game *game)
 {
 	int	i;
 	int	j;
@@ -65,46 +65,27 @@ int	ft_validate_map_characters(t_game *game)
  * Esta função não retorna um valor diretamente. 
    Resultados da contagem são armazenados nos ponteiros fornecidos.
 */
-// void	ft_count_map_elements(t_game *game, int *p, int *e, int *c)
-// {
-// 	int	i;
-// 	int	j;
-	
-// 	*p = 0;
-// 	*e = 0;
-// 	*c = 0;
-// 	i = 0;
-// 	while (i < game->map_height)
-// 	{
-// 		j = 0;
-// 		while (j < game->map_width)
-// 		{
-// 			//Incrementa contadores com base nos elementos encontrados
-// 			if (game->map[i][j] == 'P')
-// 				(*p)++;
-// 			else if (game->map[i][j] == 'E')
-// 				(*e)++;
-// 			else if (game->map[i][j] == 'C')
-// 				(*c)++;
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-void ft_count_map_elements(t_game *game, int *p, int *e, int *c)
+static void ft_count_map_elements(t_game *game, int *p, int *e, int *c)
 {
-    int i, j;
-    
-    *p = 0;
+    int i;
+    int j;
+
+    // Inicializa contadores dos elementos
+    i = 0;
+	*p = 0;
     *e = 0;
     *c = 0;
 
     printf("DEBUG: Iniciando contagem dos elementos...\n");
 
-    for (i = 0; i < game->map_height; i++)
+    // Percorre cada linha do mapa
+    while (i < game->map_height)
     {
-        for (j = 0; j < game->map_width; j++)
+        j = 0;
+        // Percorre cada coluna dentro da linha
+        while (j < game->map_width)
         {
+            // Verifica se a célula contém o jogador ('P')
             if (game->map[i][j] == 'P')
             {
                 *p += 1;
@@ -112,19 +93,21 @@ void ft_count_map_elements(t_game *game, int *p, int *e, int *c)
                 game->player_y = i;
                 printf("DEBUG: Posição do jogador identificada - X: %d, Y: %d\n", game->player_x, game->player_y);
             }
+            // Verifica se a célula contém a saída ('E')
             else if (game->map[i][j] == 'E')
                 *e += 1;
+            // Verifica se a célula contém um colecionável ('C')
             else if (game->map[i][j] == 'C')
                 *c += 1;
+
+            j++;
         }
+        i++;
     }
 
+    // Exibe o resultado final da contagem
     printf("DEBUG: Contagem final - P: %d | E: %d | C: %d\n", *p, *e, *c);
 }
-
-
-
-
 
 
 /*
@@ -173,3 +156,8 @@ int	ft_check_map_content(t_game *game)
     }
 	return (1);
 }
+
+/*
+	*
+	*
+*/

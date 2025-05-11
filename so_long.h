@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/09 15:12:13 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:20:18 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,25 @@ typedef struct	s_flood
 int		ft_init_game(t_game *game);
 //Funçao para liberar memoria a locada em mapa(matriz bidimensional)
 void	ft_free_map(char	**map, int line_count);
+
+
+
+
+//Funçao para alocar memória para armazenar o mapa
+char **ft_allocate_map_memory(int map_height);
+
+
+
+
+
 //Funçao para encerrar o jogo
 void	ft_close_game(t_game *game);
 //Funçao captura evento de fechamento da janela e encerra o jogo
 int		ft_handle_close(t_game *game);
 
-
-
-int	ft_validate_map_characters(t_game *game);
-void	ft_count_map_elements(t_game *game, int *p, int *e, int *c);
-
-//Funçao para coordenar a leitura do arquivo e processamento das linhas do mapa
-int		ft_read_map(t_game *game, const char *filename);
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)
 int		ft_check_map_content(t_game *game);
+
 
 
 //Algoritmo Flood Fill para simular o caminho do jogador
@@ -101,10 +106,12 @@ void	ft_flood_fill(t_flood *flood, int y, int x);
 */
 int		ft_flood_fill_check(t_game *game);
 
-//Verifica se todas as bordas do mapa são paredes(1)
-int		ft_check_map_walls(t_game *game);
+//Funçao que calcula e valida dimensões do mapa
+int		ft_check_map_dimensions(t_game *game);
 // Validar Map, chamando todas funçoes anteriores
 int		ft_validate_map(char *file, t_game *game);
+//Funçao para coordenar a leitura do arquivo e processamento das linhas do mapa
+int		ft_read_map(t_game *game, const char *filename);
 //Carrega sprites do jogo e armazena na estrutura game
 void    ft_load_sprites(t_game *game);
 //ft_render_map - Percorre o mapa e desenha cada elemento na janela

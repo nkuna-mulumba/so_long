@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:49:13 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/06 16:20:06 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:20:50 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,31 @@ void	ft_free_map(char **map, int line_count)
 		i++;
 	}
 	free(map);
+}
+
+/*
+ * ft_allocate_map_memory - Aloca memória para armazenar o mapa.
+ * Retorno: Ponteiro para o array do mapa ou NULL em caso de falha.
+*/
+char **ft_allocate_map_memory(int map_height)
+{
+    char **map;
+
+    if (map_height <= 0)
+    {
+        write(2, "Error: Invalid map height.\n", 27);
+        return (NULL);
+    }
+
+    // Aloca memória baseada no número de linhas do mapa
+    map = malloc(sizeof(char *) * (map_height + 1)); // +1 para a linha NULL no final
+    if (!map)
+    {
+        write(2, "Error: Failed to allocate memory.\n", 35);
+        return (NULL);
+    }
+
+    return (map);
 }
 
 /*
