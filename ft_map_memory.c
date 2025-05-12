@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:49:13 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 15:46:32 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:42:54 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char **ft_allocate_map_memory(int map_height)
 static void ft_free_sprites(t_game *game)
 {
     int i;
+    
     //Nenhum sprite carregado, nada para liberar
     if (!game->sprites_loaded)
         return;
@@ -101,26 +102,29 @@ static void ft_free_sprites(t_game *game)
 
  * @param game: Ponteiro para a estrutura principal do jogo (t_game).
  */
-void	ft_close_game(t_game *game)
+void ft_close_game(t_game *game)
 {
-	// Libera sprites carregados antes de fechar janela
+    // Libera sprites carregados antes de fechar a janela
     ft_free_sprites(game);
-	
-	// Libera memória do mapa
-	if (game->map)
-    {
-		ft_free_map(game->map, game->map_height);
-	}
+    
+    // Libera memória do mapa
+    if (game->map)
+        ft_free_map(game->map, game->map_height);
 
-    // Libera recursos gráficos (se houver)
+    // Libera recursos gráficos do MiniLibX
     if (game->mlx && game->win)
-	{
-		mlx_destroy_window(game->mlx, game->win);
-	}
+        mlx_destroy_window(game->mlx, game->win);
+
+    if (game->mlx)
+    {
+        mlx_destroy_display(game->mlx); // Libera recursos da MiniLibX
+        free(game->mlx); // Libera a estrutura de controle do MiniLibX
+    }
 
     // Finaliza o programa corretamente
     exit(0);
 }
+
 
 /*
  * ft_handle_close - Captura evento de fechamento da janela e encerra o jogo.
