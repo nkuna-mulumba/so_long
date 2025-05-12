@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/11 14:25:49 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:27:27 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ static int ft_validate_flood_results(t_flood *flood)
 int ft_flood_fill_check(t_game *game)
 {
     t_flood flood;
-    char **map_copy;
+    char    **map_copy;
 
     // Inicializar estrutura auxiliar
     ft_init_flood_struct(&flood, game);

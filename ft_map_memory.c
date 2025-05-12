@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:49:13 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 01:20:50 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:46:32 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char **ft_allocate_map_memory(int map_height)
         return (NULL);
     }
 
-    // Aloca memória baseada no número de linhas do mapa
-    map = malloc(sizeof(char *) * (map_height + 1)); // +1 para a linha NULL no final
+    //Aloca memória baseada no número de linhas do mapa
+    map = malloc(sizeof(char *) * (map_height + 1));
     if (!map)
     {
         write(2, "Error: Failed to allocate memory.\n", 35);
@@ -67,17 +67,31 @@ char **ft_allocate_map_memory(int map_height)
  	usando `mlx_destroy_image()`, evitando vazamentos
 	
  * @param game: Ponteiro para a estrutura principal do jogo (t_game).
- */
-static	void	ft_free_sprites(t_game *game)
+*/
+static void ft_free_sprites(t_game *game)
 {
-    int i = 0;
-    while (i < 4) // Assumindo 4 sprites carregados
+    int i;
+    //Nenhum sprite carregado, nada para liberar
+    if (!game->sprites_loaded)
+        return;
+
+    printf("DEBUG: Liberando %d sprites...\n", game->sprites_loaded);
+
+    i = 0;
+    //Usa a quantidade real de sprites carregados
+    while (i < game->sprites_loaded)
     {
         if (game->sprites[i])
-            mlx_destroy_image(game->mlx, game->sprites[i]); // Libera cada sprite individualmente
+        {
+            //Libera cada sprite individualmente
+            mlx_destroy_image(game->mlx, game->sprites[i]);
+            //Evita ponteiros pendentes
+            game->sprites[i] = NULL;
+        }
         i++;
     }
 }
+
 
 /*
  * ft_close_game - Encerra o jogo, liberando memória e fechando a janela.
@@ -123,10 +137,7 @@ int	ft_handle_close(t_game *game)
     ft_close_game(game);
     return (0);
 }
-
-
 /*
-    Obs:
-    A funçao (ft_free_sprites) nao pode assumir quantidade de sprites
-	carregadas sem colocar (4)?
+    *
+    *
 */

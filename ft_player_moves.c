@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:16:41 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/09 13:41:40 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:26:22 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int ft_handle_collision(t_game *game, int new_x, int new_y)
  * @param game: Ponteiro para a estrutura principal do jogo (t_game).
  * @param new_y: Nova posição vertical desejada.
  * @param new_x: Nova posição horizontal desejada.
- */
+*/
 void    ft_handle_collectibles(t_game *game, int new_x, int new_y)
 {
     //Verificar a celula contem colectabel 'C'
@@ -60,9 +60,14 @@ void    ft_handle_collectibles(t_game *game, int new_x, int new_y)
     {
         game->collectibles--;//Decrementado total de 'C' no mapa
         game->map[new_y][new_x] = '0'; // Marca célula como vazia
-        printf("Item collected! Remaining: %d\n", game->collectibles);//Vou ainda usar printf, depois sera substituido por ft_printf
+        
+        //Exibe mensagem actualizando colectable
+        ft_putstr_fd("Item collected! Remaining: ", 1);
+        ft_putnbr_fd(game->collectibles, 1);
+        ft_putchar_fd('\n', 1);
     }
 }
+
 
 /*
  * ft_check_victory - Verifica se jogador atingiu saída após coletar os itens.
@@ -78,7 +83,11 @@ void    ft_check_victory(t_game *game)
         game->player_y == game->exit_y &&
         game->collectibles == 0)
     {
-        printf("You win! Total moves: %d\n", game->moves);//Depois substituir printf por ft_printf
+        //Exibir mensagem de vitória
+        ft_putstr_fd("You win! Total moves: ", 1);
+        ft_putnbr_fd(game->moves, 1);
+        ft_putchar_fd('\n', 1);
+        
         //Encerra o jogo com segurança
         ft_close_game(game);
     }
@@ -170,7 +179,6 @@ int ft_handle_keypress(int keycode, t_game *game)
 }
 
 /*
-    substituir "printf" em funçoes:
-    ft_handle_collectibles;
-    ft_handle_collectibles;
+    *
+    *
 */

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 01:20:18 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:56:02 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,12 @@ typedef struct	s_flood
 int		ft_init_game(t_game *game);
 //Funçao para liberar memoria a locada em mapa(matriz bidimensional)
 void	ft_free_map(char	**map, int line_count);
-
-
-
-
 //Funçao para alocar memória para armazenar o mapa
-char **ft_allocate_map_memory(int map_height);
-
-
-
-
-
+char	**ft_allocate_map_memory(int map_height);
 //Funçao para encerrar o jogo
 void	ft_close_game(t_game *game);
 //Funçao captura evento de fechamento da janela e encerra o jogo
 int		ft_handle_close(t_game *game);
-
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)
 int		ft_check_map_content(t_game *game);
 

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 01:20:07 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:33:17 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  * @game: Estrutura principal que contém o mapa
  * Retorna 1 se todas linhas tiverem mesmo comprimento, ou 0 caso contrário
 */
- int	ft_check_map_dimensions(t_game *game)
- {
-    int	i;
+int	ft_check_map_dimensions(t_game *game)
+{
+    int i;
     
     //Verificar se mapa está corretamente carregado antes de usar
     if (!game->map || !game->map[0])
@@ -144,3 +144,6 @@ int ft_validate_map(char *file, t_game *game)
 	}
 	return (1);
 }
+/*
+  Diminuir a funçao: ft_check_map_dimensions
+*/

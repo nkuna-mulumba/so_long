@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcongolo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:30:25 by jcongolo          #+#    #+#             */
-/*   Updated: 2024/10/06 19:12:57 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:59:30 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <fcntl.h>
 
 void	ft_putchar_fd(char c, int fd)
 {

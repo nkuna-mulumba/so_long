@@ -6,11 +6,12 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:49:39 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/06 16:28:50 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:30:56 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
 /*
  * ft_load_sprites - Carrega sprites do jogo e armazena na estrutura game
  
@@ -18,44 +19,52 @@
     otimizar a execução
  * @param game: Ponteiro para a estrutura principal do jogo (t_game),
                onde as imagens serão armazenadas.
- */
+*/
 void    ft_load_sprites(t_game *game)
 {
-    int sprite_width;  //Para armazenar largura da imagen carregada
-    int sprite_height; //Para armazenar altura da imagem cerregada
+    int total_sprites;
     int i;
-    
-    //Array com caminhos dos arquivos de imagens dos sprites do jogo
-    char  *sprit_files[] =
+    int sprite_width;
+    int sprite_height;
+
+    //Lista de arquivos dos sprites
+    char *sprit_files[] =
     {
         "assets/collectible.xpm",
         "assets/exit.xpm",
         "assets/player.xpm",
         "assets/wall.xpm"
     };
-    
-    //Evitar carregamento desnecessário
-    game->sprites_loaded = 0;
-    if (game->sprites_loaded == 1)
+
+    //Número total de sprites
+    total_sprites = sizeof(sprit_files) / sizeof(sprit_files[0]);
+
+    //Se os sprites já foram carregados, evitar carregamento repetitivo
+    if (game->sprites_loaded == total_sprites)
         return;
-    
-    // Carregar as imagens usando while
+
+    //Inicializa a contagem
+    game->sprites_loaded = 0;
+
+    //Carregar os sprites dinamicamente com base no array
     i = 0;
-    while (i < 4)
+    while (i < total_sprites)
     {
         game->sprites[i] = mlx_xpm_file_to_image(game->mlx, sprit_files[i], &sprite_width, &sprite_height);
-        //Verificar se houve erro ao carregar alguma imagem
         if (!game->sprites[i])
         {
             write(2, "Error: Failed to load sprite\n", 30);
             exit(EXIT_FAILURE);
         }
+
+        printf("DEBUG: Sprite carregado [%d]: %s\n", i, sprit_files[i]); // Depuração para confirmar carregamento
+        game->sprites_loaded++; // Atualiza a quantidade de sprites carregados
         i++;
     }
-    
-    //Marcar que os sprites foram carregados
-    game->sprites_loaded = 1;
+
+    printf("DEBUG: Total de sprites carregados: %d\n", game->sprites_loaded);
 }
+
 
 /*
  * ft_draw_tile - Exibe único bloco do mapa na posição (x, y).
@@ -121,3 +130,7 @@ void    ft_render_map(t_game *game)
         y++;
     }
 }
+
+/*
+    diminuir a funçao: ft_load_sprites
+*/
