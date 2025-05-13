@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:16:41 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 21:43:15 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:30:23 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,35 +101,6 @@ void    ft_check_victory(t_game *game)
  * @param game: Ponteiro para a estrutura principal do jogo (t_game).
  * @param dx: Deslocamento horizontal (-1 para esquerda, 1 para direita, 0 sem alteração).
  * @param dy: Deslocamento vertical (-1 para cima, 1 para baixo, 0 sem alteração).
-
-void    ft_move_player(t_game *game, int dx, int dy)
-{
-    int new_x = game->player_x + dx;
-    int new_y = game->player_y + dy;
-
-    //Verifica colisões antes de mover
-    if (ft_handle_collision(game, new_x, new_y))
-        return;
-
-    //Atualiza coletáveis se houver um item na nova posição
-    ft_handle_collectibles(game, new_x, new_y);
-
-    //Atualiza posição do jogador
-    game->map[game->player_y][game->player_x] = '0'; // Remove posição antiga
-    game->player_x = new_x;
-    game->player_y = new_y;
-    game->map[new_y][new_x] = 'P'; // Atualiza posição no mapa
-
-    //Exibe cada movimento do 'P'
-    ft_putendl_fd(ft_strjoin("playes moves -> ",ft_itoa(game->moves)),0);
-    game->moves++;
-
-    //Atualizar tela após o movimento
-    ft_render_map(game);
-
-    //Verifica condição de vitória
-    ft_check_victory(game);
-}
 */
 void ft_move_player(t_game *game, int dx, int dy)
 {

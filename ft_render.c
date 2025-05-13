@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:49:39 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 15:30:56 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:18:11 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void    ft_load_sprites(t_game *game)
     int i;
     int sprite_width;
     int sprite_height;
-
+    
     //Lista de arquivos dos sprites
-    char *sprit_files[] =
+    char    *sprit_files[] =
     {
         "assets/collectible.xpm",
         "assets/exit.xpm",
@@ -39,14 +39,19 @@ void    ft_load_sprites(t_game *game)
     //Número total de sprites
     total_sprites = sizeof(sprit_files) / sizeof(sprit_files[0]);
 
-    //Se os sprites já foram carregados, evitar carregamento repetitivo
+    //Se sprites já foram carregados, evitar carregamento repetitivo
     if (game->sprites_loaded == total_sprites)
         return;
 
-    //Inicializa a contagem
+    //Inicializar a contagem
     game->sprites_loaded = 0;
 
-    //Carregar os sprites dinamicamente com base no array
+    //Inicializar dimensões do sprite
+    sprite_width = 0;
+    sprite_height = 0;
+    printf("DEBUG: sprite_width = %d, sprite_height = %d antes da carga\n", sprite_width, sprite_height);
+
+    //Carregar sprites dinamicamente com base no array
     i = 0;
     while (i < total_sprites)
     {
@@ -57,14 +62,13 @@ void    ft_load_sprites(t_game *game)
             exit(EXIT_FAILURE);
         }
 
-        printf("DEBUG: Sprite carregado [%d]: %s\n", i, sprit_files[i]); // Depuração para confirmar carregamento
-        game->sprites_loaded++; // Atualiza a quantidade de sprites carregados
+        printf("DEBUG: Sprite carregado [%d]: %s\n", i, sprit_files[i]);
+        game->sprites_loaded++;//Atualizar quantidade de sprites carregados
         i++;
     }
 
     printf("DEBUG: Total de sprites carregados: %d\n", game->sprites_loaded);
 }
-
 
 /*
  * ft_draw_tile - Exibe único bloco do mapa na posição (x, y).
@@ -132,5 +136,7 @@ void    ft_render_map(t_game *game)
 }
 
 /*
-    diminuir a funçao: ft_load_sprites
+    *
+    *
+    * 
 */

@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:32:06 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 13:03:03 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:11:34 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,36 +52,45 @@ static char *ft_read_map_line(char *line)
  * @game: Estrutura do jogo que armazenará os dados do mapa.
  * Retorno: 1 se bem-sucedido, ou 0 em caso de erro.
 */
-static int ft_load_map_lines(int fd, t_game *game)
+static int  ft_load_map_lines(int fd, t_game *game)
 {
     char    *line;
     int     i;
-    
+
     printf("DEBUG: Iniciando leitura do mapa...\n");
     i = 0;
+
     //Lê cada linha do arquivo e armazena no array `game->map`
     while ((line = ft_get_next_line(fd)) != NULL)
     {
         printf("DEBUG: Linha lida [%d]: %s\n", i, line);
+
         //Processa e copia a linha para a estrutura do jogo
         game->map[i] = ft_read_map_line(line);
         free(line);
-        
+
         //Verifica se a cópia falhou
         if (!game->map[i])
         {
             write(2, "Error: Failed to copy map line.\n", 33);
+            ft_free_map(game->map, i);
             return (0);
         }
-        
+
+        //Atualiza a largura do mapa com base na primeira linha lida
+        if (i == 0)
+            game->map_width = ft_strlen(game->map[i]);
+
         i++;
     }
-    //Finaliza o array do mapa com `NULL` para indicar o fim
+
+    //Finaliza array do mapa com `NULL` para indicar o fim
     game->map[i] = NULL;
-    
+
     printf("DEBUG: Leitura do mapa concluída!\n");
     return (1);
 }
+
 
 
 /*
@@ -147,19 +156,19 @@ static int  ft_estimate_map_height(const char *filename)
  
  * Retorno:
  *   - Retorna 1 se a leitura do mapa for bem-sucedida.
- *   - Retorna 0 se ocorrer qualquer erro durante a execução.
+ *   - Retorna 0 se ocorrer qualquer erro durante a execução
 */
 int ft_read_map(t_game *game, const char *filename)
 {
     int fd;
     int map_height;
 
-    //Inicializa contagem de colecionáveis (`C`)
+    //Inicializar contagem de colecionáveis (`C`)
     game->collectibles = 0;
 
-    //Abre o arquivo do mapa
+    //Abre arquivo do mapa
     fd = ft_open_map_file(filename);
-
+    
     //Determinar altura do mapa
     map_height = ft_estimate_map_height(filename);
     if (map_height <= 0)
@@ -169,7 +178,11 @@ int ft_read_map(t_game *game, const char *filename)
         return (0);
     }
 
-    //Aloca memória para armazenar a matriz do mapa
+    //Inicializar com altura do mapa correcta
+    game->map_height = map_height;
+    game->map_width = 0;
+
+    //Alocar memória para armazenar matriz do mapa
     game->map = ft_allocate_map_memory(map_height);
     if (!game->map)
     {
@@ -180,19 +193,23 @@ int ft_read_map(t_game *game, const char *filename)
     //Carregar as linhas do mapa
     if (!ft_load_map_lines(fd, game))
     {
+        ft_free_map(game->map, map_height);
         close(fd);
         return (0);
     }
+
     printf("DEBUG: Dimensões do mapa - Largura: %d | Altura: %d\n", game->map_width, game->map_height);
 
-    //Fecha arquivo após a leitura completa
+    // Fecha o arquivo corretamente após a leitura
     close(fd);
     return (1);
 }
 
 
+
 /*
-  *
-  *ft_check_map_dimensions
+  * Diminuir a funçao ft_read_map
+  * 
+  * ft_check_map_dimensions
   *   
 */
