@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:53:33 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 11:56:02 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 21:51:40 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ int		ft_handle_close(t_game *game);
 //Garante que mapa ter exatamente 1 jogador(P), 1 saída(E), e pelo menos 1 coletável(C)
 int		ft_check_map_content(t_game *game);
 
-
-
 //Algoritmo Flood Fill para simular o caminho do jogador
 void	ft_flood_fill(t_flood *flood, int y, int x);
 /*
@@ -106,6 +104,10 @@ int		ft_read_map(t_game *game, const char *filename);
 void    ft_load_sprites(t_game *game);
 //ft_render_map - Percorre o mapa e desenha cada elemento na janela
 void	ft_render_map(t_game *game);
+//ft_update_player - Atualiza posição do jogador no mapa
+void	ft_update_player(t_game *game, int dx, int dy);
+// ft_finalize_move - Finaliza o movimento do jogador
+void	ft_finalize_move(t_game *game);
 //Move jogador para nova posição no mapa
 void    ft_move_player(t_game *game, int dx, int dy);
 //Captura eventos de teclado e executa ações do jogo

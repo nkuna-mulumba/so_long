@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:06:11 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/17 16:27:04 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 21:47:53 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,65 @@ int main(void)
 }
 */
 
+/*
+ * ft_move_player - Gerencia o movimento do jogador
+ * chamando funções auxiliares organizadas em duas partes.
+ *
+ * @param game: Estrutura principal do jogo.
+ * @param dx: Deslocamento horizontal.
+ * @param dy: Deslocamento vertical.
+ */
+void    ft_move_player(t_game *game, int dx, int dy)
+{
+    ft_update_player(game, dx, dy);
+    ft_finalize_move(game);
+}
+
+/*
+ * ft_handle_keypress - Captura eventos de teclado e executa ações do jogo.
+ 
+ - Quando uma tecla é pressionada, verifica se é um comando de movimento
+ 	('W', 'A', 'S', 'D') e chama a função de movimentação `ft_move_player()`
+ - Se for 'ESC', encerra o jogo chamando `ft_close_game()`.
+ 
+ * @param keycode: Código da tecla pressionada pelo jogador.
+ * @param game: Ponteiro para estrutura principal do jogo (t_game).
+ * @return: Retorna 0 após processar a entrada.
+ */
+int	ft_handle_keypress(int keycode, t_game *game)
+{
+	if (!game)
+		return (-1);
+
+	//Capturar evento de teclas   
+	if (keycode == KEY_ESC)//Tecla ESC para sair do jogo
+	{
+		ft_close_game(game);
+		return (0);
+	}
+	if (keycode == KEY_W)
+	{
+		//Movimento para cima
+		ft_move_player(game, 0, -1);
+	}
+	else if (keycode == KEY_S)
+	{
+		//Movimento para baixo
+		ft_move_player(game, 0, 1);
+	}
+	else if (keycode == KEY_A)
+	{
+		//Movimento para esquerda
+		ft_move_player(game, -1, 0);
+	}
+	else if (keycode == KEY_D)
+	{
+		//Movimento para direita
+		ft_move_player(game, 1, 0);
+	}
+	
+	return (0);
+}
 
 //Main final do jogo
 int main(int argc, char **argv)
