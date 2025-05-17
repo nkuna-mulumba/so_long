@@ -6,54 +6,62 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:49:39 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/17 16:26:16 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 17:43:30 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 /*
- * ft_load_sprites - Carrega sprites do jogo e armazena na estrutura game
- 
- * Elementos visuais são carregados apenas uma vez para 
-	otimizar a execução
- * @param game: Ponteiro para a estrutura principal do jogo (t_game),
-			   onde as imagens serão armazenadas.
+ * ft_load_sprite_files - Define caminhos dos arquivos de sprites do jogo
+ 	Sera chamada dentro de `ft_load_sprites()` para garantir que os
+	arquivos sejam corretamente organizados e carregados.
+ * @param sprit_files: Array de strings onde caminhos dos sprites serão
+ 	armazenados.
+*/
+static void	ft_load_sprite_files(char *sprit_files[])
+{
+	sprit_files[0] = "assets/collectible.xpm";
+	sprit_files[1] = "assets/exit.xpm";
+	sprit_files[2] = "assets/player.xpm";
+	sprit_files[3] = "assets/wall.xpm";
+}
+
+/*
+ * ft_load_sprites - Carrega os sprites do jogo na estrutura `game`. 
+ * Função inicializa os sprites a partir dos arquivos XPM fornecidos
+	em `ft_load_sprite_files()`, garantindo que cada imagem seja
+	corretamente carregada, armazenada na estrutura `game->sprites`.
+ * Se ocorrer um erro ao carregar qualquer sprite, execução do
+ 	jogo é interrompida.
+ * @param game: Estrutura principal do jogo onde sprites serão armazenados
 */
 void	ft_load_sprites(t_game *game)
 {
-	int	total_sprites;
-	int	i;
-	int	sprite_width;
-	int	sprite_height;
-	
-	//Lista de arquivos dos sprites
-	char	*sprit_files[] =
-	{
-		"assets/collectible.xpm",
-		"assets/exit.xpm",
-		"assets/player.xpm",
-		"assets/wall.xpm"
-	};
+	int		total_sprites;
+	int		i;
+	int		sprite_width;
+	int		sprite_height;
+	char	*sprit_files[4];
 
-	//Número total de sprites
+    // Chama a função que inicializa a lista de arquivos dos sprites
+	ft_load_sprite_files(sprit_files);
+
+    // Inicializa variáveis antes de atribuir valores
 	total_sprites = sizeof(sprit_files) / sizeof(sprit_files[0]);
-
-	//Se sprites já foram carregados, evitar carregamento repetitivo
-	if (game->sprites_loaded == total_sprites)
-		return;
-
-	//Inicializar a contagem
-	game->sprites_loaded = 0;
-
-	//Inicializar dimensões do sprite
+	i = -1;
 	sprite_width = 0;
 	sprite_height = 0;
-	printf("DEBUG: sprite_width = %d, sprite_height = %d antes da carga\n", sprite_width, sprite_height);
+	game->sprites_loaded = 0;
 
-	//Carregar sprites dinamicamente com base no array
-	i = 0;
-	while (i < total_sprites)
+    printf("DEBUG: sprite_width = %d, sprite_height = %d antes da carga\n", sprite_width, sprite_height);
+
+    // Se os sprites já foram carregados, evitar carregamento repetitivo
+	if (game->sprites_loaded == total_sprites)
+		return ;
+
+    // Carregar sprites dinamicamente com base no array
+	while (++i < total_sprites)
 	{
 		game->sprites[i] = mlx_xpm_file_to_image(game->mlx, sprit_files[i],
 				&sprite_width, &sprite_height);
@@ -63,12 +71,11 @@ void	ft_load_sprites(t_game *game)
 			exit(EXIT_FAILURE);
 		}
 
-		printf("DEBUG: Sprite carregado [%d]: %s\n", i, sprit_files[i]);
-		game->sprites_loaded++;//Atualizar quantidade de sprites carregados
-		i++;
+        printf("DEBUG: Sprite carregado [%d]: %s\n", i, sprit_files[i]);
+		game->sprites_loaded++;// Atualizar quantidade de sprites carregados
 	}
 
-	printf("DEBUG: Total de sprites carregados: %d\n", game->sprites_loaded);
+    printf("DEBUG: Total de sprites carregados: %d\n", game->sprites_loaded);
 }
 
 /*
@@ -80,7 +87,7 @@ void	ft_load_sprites(t_game *game)
  * @param game: Ponteiro para a estrutura principal do jogo (t_game).
  * @param x: Posição horizontal do bloco no mapa.
  * @param y: Posição vertical do bloco no mapa.
- */
+*/
 static void	ft_draw_tile(t_game *game, int x, int y)
 {
 	void	*img;
@@ -113,7 +120,7 @@ static void	ft_draw_tile(t_game *game, int x, int y)
  *
  * @param game: Ponteiro para a estrutura principal do jogo (t_game),
  *              contendo o mapa e as imagens carregadas.
- */
+*/
 void	ft_render_map(t_game *game)
 {
 	int y;
@@ -137,7 +144,7 @@ void	ft_render_map(t_game *game)
 }
 
 /*
-	*Diminuir a funçao ft_load_sprites
+	*
 	*
 	* 
 */

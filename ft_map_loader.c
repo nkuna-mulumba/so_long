@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:32:06 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/17 14:17:32 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:08:33 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_open_map_file(const char *filename)
 	if (fd < 0)
 	{
 		write(2, "Error: Invalid map file.\n", 26);
-		return(-1);   
+		return (-1);
 	}
 	return (fd);
 }
@@ -47,6 +47,7 @@ static char	*ft_read_map_line(char *line)
 	return (ft_strdup(line));
 }
 
+
 /*
  * ft_load_map_lines - Lê e armazena as linhas do mapa.
  * @fd: Descritor do arquivo do mapa.
@@ -58,19 +59,20 @@ static int	ft_load_map_lines(int fd, t_game *game)
 	char	*line;
 	int		i;
 
-	printf("DEBUG: Iniciando leitura do mapa...\n");
-	i = 0;
+    printf("DEBUG: Iniciando leitura do mapa...\n");
+    i = 0;
 
-	//Lê cada linha do arquivo e armazena no array `game->map`
-	while ((line = ft_get_next_line(fd)) != NULL)
-	{
-		printf("DEBUG: Linha lida [%d]: %s\n", i, line);
+    //Lê cada linha do arquivo e armazena no array `game->map`
+    line = ft_get_next_line(fd);
+    while (line != NULL)
+    {
+    	printf("DEBUG: Linha lida [%d]: %s\n", i, line);
 
-		//Processa e copia a linha para a estrutura do jogo
+        // Processa e copia a linha para a estrutura do jogo
 		game->map[i] = ft_read_map_line(line);
 		free(line);
 
-		//Verificar se a cópia falhou
+        //Verificar se cópia falhou
 		if (!game->map[i])
 		{
 			write(2, "Error: Failed to copy map line.\n", 33);
@@ -78,19 +80,21 @@ static int	ft_load_map_lines(int fd, t_game *game)
 			return (0);
 		}
 
-		//Atualizar largura do mapa com base na primeira linha lida
+        //Atualizar largura do mapa com base na primeira linha lida
 		if (i == 0)
 			game->map_width = ft_strlen(game->map[i]);
 
 		i++;
-	}
+		line = ft_get_next_line(fd);
+    }
 
-	//Finalizar array do mapa com `NULL` para indicar o fim
+    //Finalizar array do mapa com `NULL` para indicar o fim
 	game->map[i] = NULL;
 
-	printf("DEBUG: Leitura do mapa concluída!\n");
+    printf("DEBUG: Leitura do mapa concluída!\n");
 	return (1);
 }
+
 
 /*
  * ft_estimate_map_height - Obtém quantidade de linhas de mapa
@@ -117,26 +121,30 @@ static int	ft_estimate_map_height(const char *filename)
 	int		height;
 
 	height = 0;
-	//Abrir arquivo do mapa
+    // Abrir arquivo do mapa
 	fd = ft_open_map_file(filename);
 
-	//Contar número de linhas no arquivo
-	while ((line = ft_get_next_line(fd)) != NULL)
+    // Ler a primeira linha antes de iniciar o loop
+	line = ft_get_next_line(fd);
+	while (line != NULL)
 	{
 		free(line);
 		height++;
+
+        // Atualiza `line` dentro do loop para evitar atribuição na condição do `while`
+		line = ft_get_next_line(fd);
 	}
 
-	//Fechar arquivo
+    //Fechar arquivo
 	close(fd);
 
-	//Verificação final para evitar valores inválidos
+    //Verificação final para evitar valores inválidos
 	if (height <= 0)
 	{
 		write(2, "Error: Map file is empty or corrupted.\n", 39);
 		return (-1);
-	}
-
+    }
+	
 	return (height);
 }
 
@@ -205,7 +213,5 @@ int	ft_read_map(t_game *game, const char *filename)
 /*
   * 
   * 
-  *
   *   
 */
-
