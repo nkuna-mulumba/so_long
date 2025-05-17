@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:33:07 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 12:27:27 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:28:02 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,5 +186,9 @@ int ft_flood_fill_check(t_game *game)
     // Validar se todos os colecionáveis e saída foram alcançados
     return ft_validate_flood_results(&flood);
 }
-
+/*
+    *
+    *
+    * 
+*/
 

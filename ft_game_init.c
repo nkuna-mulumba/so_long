@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:39:48 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/09 12:56:21 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:34:46 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,53 +55,70 @@ static int  ft_init_mlx(t_game *game)
 }
 
 /*
- * ft_init_elements - Inicializa elementos essenciais do jogo no mapa.
-    A função percorre matriz do mapa para identificar posição inicial
-    do jogador ('P'), da saída ('E'), contabilizar colecionáveis ('C').
-    - Caso algum dos elementos obrigatórios esteja ausente, retorna erro.
+ * ft_process_map_elements - Percorre mapa do jogo e identifica 
+    os elementos essenciais.
+ * Função verifica cada célula da matriz do mapa, atribuindo valores adequados
+    para o jogador ('P'), a saída ('E') e os colecionáveis ('C').
+ 
  * @param game: Ponteiro para a estrutura principal do jogo (t_game),
-                contendo informações sobre o mapa e os elementos.
- * Retorno:
-      - 1: Sucesso na localização dos elementos essenciais.
-      - 0: Falha caso jogador ('P') ou saída ('E') não sejam encontrados.
+              contendo informações sobre o mapa e os elementos.
  */
-static int  ft_init_elements(t_game *game)
+static void ft_process_map_elements(t_game *game)
 {
     int y;
     int x;
 
-    //Inicializar variáveis para rastrear os elementos
-    game->player_found = 0;
-    game->exit_found = 0;
-    game->collectibles = 0;
     y = -1;
-
-    // Percorre o mapa linha por linha
     while (++y < game->map_height)
     {
         x = -1;
         while (++x < game->map_width)
         {
-            //Se encontrar o jogador ('P') e ainda não tiver sido registrado
+            //Se encontrar ('P'), define sua posição e marca como encontrado
             if (game->map[y][x] == 'P' && !game->player_found)
             {
                 game->player_x = x;
                 game->player_y = y;
-                game->player_found = 1; //Marca que o jogador foi encontrado
+                game->player_found = 1;
             }
-            //Se encontrar a saída ('E') e ainda não tiver sido registrada
+            //Se encontrar saída ('E'), define sua posição e marca como encontrada
             else if (game->map[y][x] == 'E' && !game->exit_found)
             {
                 game->exit_x = x;
                 game->exit_y = y;
-                game->exit_found = 1; //Marca que a saída foi encontrada
+                game->exit_found = 1;
             }
-            //Se encontrar um colecionável ('C'), aumenta o contador
+            //Se encontrar colecionável ('C'), incrementa o contador
             else if (game->map[y][x] == 'C')
                 game->collectibles++;
         }
     }
-    //Se jogador ('P') ou a saída ('E') não forem encontrados, retorna erro
+}
+
+/*
+ * ft_init_elements - Inicializa, valida os elementos essenciais do 
+    jogo no mapa
+ * Função define variáveis de rastreamento dos elementos antes de chamar
+    `ft_process_map_elements()` para realizar a análise do mapa.
+ 
+ * Caso o ('P') ou a ('E') estejam ausentes, função retorna erro.
+ * @param game: Ponteiro para a estrutura principal do jogo (t_game),
+ *              contendo informações sobre o mapa e os elementos.
+ * Retorno:
+       - 1: Sucesso na localização dos elementos essenciais.
+       - 0: Falha caso ('P') ou saída ('E') não sejam encontrados.
+ */
+static int ft_init_elements(t_game *game)
+{
+    //Inicializar variáveis para rastrear elementos no mapa
+    game->player_found = 0;
+    game->exit_found = 0;
+    game->collectibles = 0;
+
+    //Percorrer mapa e identificar elementos essenciais
+    ft_process_map_elements(game);
+
+    //Verificar se elementos obrigatórios foram encontrados
     if (!game->player_found || !game->exit_found)
     {
         write(2, "Error: Missing player ('P') or exit ('E')\n", 42);
@@ -128,30 +145,31 @@ static int  ft_init_elements(t_game *game)
  */
 int ft_init_game(t_game *game)
 {
-    //Inicializa o contador de movimentos do jogador
+    //Inicializar contador de movimentos do jogador
     game->moves = 0;
 
-    //Verifica inicialização gráfica e elementos do mapa
+    //Verificar inicialização gráfica e elementos do mapa
     if (!ft_init_mlx(game) || !ft_init_elements(game))
     {
-        //Libera recursos gráficos em caso de falha
+        //Liberar recursos gráficos em caso de falha
         if (game->mlx)
         {
             if (game->win)
             {
-                //Destroi a janela caso tenha sido criada
+                //Destruir janela caso tenha sido criada
                 mlx_destroy_window(game->mlx, game->win);
             }
-            //Libera instância do sistema gráfico
+            //Liberar instância do sistema gráfico
             free(game->mlx);
         }
-        //Retorna falha
+        //Retornar falha
         return (0);
     }
     return (1);
 }
 
 /*
-    Obs:
-    Diminuir as linhas da funçao "ft_init_elements"
+    *
+    *
+    * 
 */

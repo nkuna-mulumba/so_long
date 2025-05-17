@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:16:41 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/13 11:30:23 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:00:40 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,180 +21,175 @@
  * @param new_x: Nova posição horizontal desejada.
  * @return: 1 se houver colisão, 0 se movimento for permitido.
  */
-int ft_handle_collision(t_game *game, int new_x, int new_y)
+int	ft_handle_collision(t_game *game, int new_x, int new_y)
 {
-    //Verifica limites horizontais
-    if (new_x < 0 || new_x >= game->map_width)
-    {
-        return (1);
-    }
+	//Verifica limites horizontais
+	if (new_x < 0 || new_x >= game->map_width)
+	{
+		return (1);
+	}
 
-    //Verifica limites verticais
-    if (new_y < 0 || new_y >= game->map_height)
-    {
-        return (1);
-    }
+	//Verifica limites verticais
+	if (new_y < 0 || new_y >= game->map_height)
+	{
+		return (1);
+	}
 
-    //Só checa a parede se as coordenadas forem válidas!
-    if (game->map[new_y][new_x] == '1')
-    {
-        return (1);
-    }
+	//Só checa a parede se as coordenadas forem válidas!
+	if (game->map[new_y][new_x] == '1')
+	{
+		return (1);
+	}
 
-    return (0); // Movimento válido
+	return (0); // Movimento válido
 }
 
 /*
- * ft_handle_collectibles - Atualiza o estado do jogo ao coletar um item ('C').
- 
- * Se o jogador coletar um item, diminui a contagem de coletáveis e remove do mapa.
- 
- * @param game: Ponteiro para a estrutura principal do jogo (t_game).
+ * ft_handle_collectibles - Atualiza estado do jogo ao coletar um item ('C')
+ * Se o jogador coletar um item, diminui a contagem de coletáveis 
+ * @param game: Ponteiro para estrutura principal do jogo (t_game).
  * @param new_y: Nova posição vertical desejada.
  * @param new_x: Nova posição horizontal desejada.
 */
-void    ft_handle_collectibles(t_game *game, int new_x, int new_y)
+void	ft_handle_collectibles(t_game *game, int new_x, int new_y)
 {
-    //Verificar a celula contem colectabel 'C'
-    if (game->map[new_y][new_x] == 'C')
-    {
-        game->collectibles--;//Decrementado total de 'C' no mapa
-        game->map[new_y][new_x] = '0'; // Marca célula como vazia
-        
-        //Exibe mensagem actualizando colectable
-        ft_putstr_fd("Item collected! Remaining: ", 1);
-        ft_putnbr_fd(game->collectibles, 1);
-        ft_putchar_fd('\n', 1);
-    }
+	//Verificar celula contem colectabel 'C'
+	if (game->map[new_y][new_x] == 'C')
+	{
+		game->collectibles--;//Decrementado total de 'C' no mapa
+		game->map[new_y][new_x] = '0';//Marcar célula como vazia
+		
+		//Exibir mensagem actualizando colectable
+		ft_putstr_fd("Item collected! Remaining: ", 1);
+		ft_putnbr_fd(game->collectibles, 1);
+		ft_putchar_fd('\n', 1);
+	}
 }
-
 
 /*
  * ft_check_victory - Verifica se jogador atingiu saída após coletar os itens.
- 
- * Se todos os coletáveis forem obtidos e o jogador alcançar a saída ('E'),
-    o jogo termina.
- * @param game: Ponteiro para a estrutura principal do jogo (t_game).
+ * Se todos os coletáveis forem obtidos e jogador alcançar a saída ('E'),
+	o jogo termina.
+ * @param game: Ponteiro para estrutura principal do jogo (t_game).
  */
-void    ft_check_victory(t_game *game)
+void	ft_check_victory(t_game *game)
 {
-    //Validar vitória: jogador na saída 'E', todos coletáveis 'C' obtidos
-    if (game->player_x == game->exit_x &&
-        game->player_y == game->exit_y &&
-        game->collectibles == 0)
-    {
-        //Exibir mensagem de vitória
-        ft_putstr_fd("You win! Total moves: ", 1);
-        ft_putnbr_fd(game->moves, 1);
-        ft_putchar_fd('\n', 1);
-        
-        //Encerra o jogo com segurança
-        ft_close_game(game);
-    }
+	//Validar vitória: jogador na saída 'E', todos coletáveis 'C' obtidos
+	if (game->player_x == game->exit_x &&
+		game->player_y == game->exit_y &&
+		game->collectibles == 0)
+	{
+		//Exibir mensagem de vitória
+		ft_putstr_fd("You win! Total moves: ", 1);
+		ft_putnbr_fd(game->moves, 1);
+		ft_putchar_fd('\n', 1);
+		
+		//Encerra o jogo com segurança
+		ft_close_game(game);
+	}
 }
 
 /*
- * ft_move_player - Move jogador para nova posição no mapa.
- 
- * Verifica colisões, coleta itens e verifica condição de vitória antes de movimentar.
- 
- * @param game: Ponteiro para a estrutura principal do jogo (t_game).
- * @param dx: Deslocamento horizontal (-1 para esquerda, 1 para direita, 0 sem alteração).
- * @param dy: Deslocamento vertical (-1 para cima, 1 para baixo, 0 sem alteração).
+ * ft_move_player - Move jogador para nova posição no mapa
+ * Verifica colisões, coleta itens e verifica condição de vitória
+ 	antes de movimentar.
+ * @param game: Ponteiro para estrutura principal do jogo (t_game).
+ * @param dx: Deslocamento horizontal (-1 para esquerda, 1 para
+ 	direita, 0 sem alteração).
+ * @param dy: Deslocamento vertical (-1 para cima, 1 para
+ 	baixo, 0 sem alteração).
 */
-void ft_move_player(t_game *game, int dx, int dy)
+void	ft_move_player(t_game *game, int dx, int dy)
 {
-    int new_x;
-    int new_y;
-    char *num_str;
-    char *message;
-    
-    // Verifica colisões antes de mover
-    new_x = game->player_x + dx;
-    new_y = game->player_y + dy;
-    if (ft_handle_collision(game, new_x, new_y))
-        return;
-    
-    // Atualiza coletáveis se houver um item na nova posição
-    ft_handle_collectibles(game, new_x, new_y);
+	int		new_x;
+	int		new_y;
+	char	*num_str;
+	char	*message;
 
-    // Atualiza posição do jogador
-    game->map[game->player_y][game->player_x] = '0'; // Remove posição antiga
-    game->player_x = new_x;
-    game->player_y = new_y;
-    game->map[new_y][new_x] = 'P'; // Atualiza posição no mapa
+	//Verificar colisões antes de mover
+	new_x = game->player_x + dx;
+	new_y = game->player_y + dy;
+	if (ft_handle_collision(game, new_x, new_y))
+		return;
 
-    // Exibe cada movimento do 'P' sem vazamento
-    num_str = ft_itoa(game->moves);
-    if (!num_str)
-        return;
-    message = ft_strjoin("playes moves -> ", num_str);
-    free(num_str); //Libera string numérica
+	//Atualiza coletáveis se houver um item na nova posição
+	ft_handle_collectibles(game, new_x, new_y);
 
-    if (message)
-    {
-        ft_putendl_fd(message, 1);
-        free(message); // Libera mensagem final
-    }
+	//Atualizar posição do jogador
+	game->map[game->player_y][game->player_x] = '0';//Remove posição antiga
+	game->player_x = new_x;
+	game->player_y = new_y;
+	game->map[new_y][new_x] = 'P';//Atualiza posição no mapa
 
-    game->moves++;
+	//Exibe cada movimento do 'P'
+	num_str = ft_itoa(game->moves);
+	if (!num_str)
+		return;
+	message = ft_strjoin("playes moves -> ", num_str);
+	free(num_str);//Liberar string numérica
 
-    // Atualizar tela após o movimento
-    ft_render_map(game);
+	if (message)
+	{
+		ft_putendl_fd(message, 1);
+		free(message);//Liberar mensagem final
+	}
 
-    // Verifica condição de vitória
-    ft_check_victory(game);
+	game->moves++;
+
+	//Atualizar tela após o movimento
+	ft_render_map(game);
+
+	//Verificar condição de vitória
+	ft_check_victory(game);
 }
-
-
 
 /*
  * ft_handle_keypress - Captura eventos de teclado e executa ações do jogo.
  
- * Quando uma tecla é pressionada, verifica se é um comando de movimento
- * ('W', 'A', 'S', 'D') e chama a função de movimentação `ft_move_player()`.
- * Se for 'ESC', encerra o jogo chamando `ft_close_game()`.
+ - Quando uma tecla é pressionada, verifica se é um comando de movimento
+ 	('W', 'A', 'S', 'D') e chama a função de movimentação `ft_move_player()`
+ - Se for 'ESC', encerra o jogo chamando `ft_close_game()`.
  
  * @param keycode: Código da tecla pressionada pelo jogador.
- * @param game: Ponteiro para a estrutura principal do jogo (t_game).
+ * @param game: Ponteiro para estrutura principal do jogo (t_game).
  * @return: Retorna 0 após processar a entrada.
  */
-int ft_handle_keypress(int keycode, t_game *game)
+int	ft_handle_keypress(int keycode, t_game *game)
 {
-    if (!game)
-        return (-1);
-    
-    //Capturar evento de teclas   
-    if (keycode == KEY_ESC)//Tecla ESC para sair do jogo
-    {
-        ft_close_game(game);
-        return (0);
-    }
-    if (keycode == KEY_W)
-    {
-        //Movimento para cima
-        ft_move_player(game, 0, -1);
-    }
-    else if (keycode == KEY_S)
-    {
-        //Movimento para baixo
-        ft_move_player(game, 0, 1);
-    }
-    else if (keycode == KEY_A)
-    {
-        //Movimento para esquerda
-        ft_move_player(game, -1, 0);
-    }
-    else if (keycode == KEY_D)
-    {
-        //Movimento para direita
-        ft_move_player(game, 1, 0);
-    }
-    
-    return (0);
+	if (!game)
+		return (-1);
+
+	//Capturar evento de teclas   
+	if (keycode == KEY_ESC)//Tecla ESC para sair do jogo
+	{
+		ft_close_game(game);
+		return (0);
+	}
+	if (keycode == KEY_W)
+	{
+		//Movimento para cima
+		ft_move_player(game, 0, -1);
+	}
+	else if (keycode == KEY_S)
+	{
+		//Movimento para baixo
+		ft_move_player(game, 0, 1);
+	}
+	else if (keycode == KEY_A)
+	{
+		//Movimento para esquerda
+		ft_move_player(game, -1, 0);
+	}
+	else if (keycode == KEY_D)
+	{
+		//Movimento para direita
+		ft_move_player(game, 1, 0);
+	}
+	
+	return (0);
 }
 
 /*
-    *
-    *
+	*
+	*
 */

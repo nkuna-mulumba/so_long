@@ -6,7 +6,7 @@
 /*   By: jcongolo <jcongolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:06:11 by jcongolo          #+#    #+#             */
-/*   Updated: 2025/05/12 15:52:11 by jcongolo         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:27:04 by jcongolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,8 +297,8 @@ int main(int argc, char **argv)
     ft_render_map(&game);
 
     //Configurar eventos
-    mlx_key_hook(game.win, ft_handle_keypress, &game);  // Capturar teclas para mover o jogador
-    mlx_hook(game.win, 17, 1L << 17, ft_handle_close, &game);  // Capturar evento de fechamento da janela `[X]`
+    mlx_key_hook(game.win, ft_handle_keypress, &game);//Capturar teclas para mover jogador
+    mlx_hook(game.win, 17, 1L << 17, ft_handle_close, &game);//Capturar evento de fechamento da janela `[X]`
 
     //Inicializar Minilibx
     mlx_loop(game.mlx); // Iniciar o loop gráfico da MLX
